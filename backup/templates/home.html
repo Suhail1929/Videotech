@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidéothèque</title>
+</head>
+<body>
+    <h1>Bienvenue dans la vidéothèque</h1>
+    {% if user %}
+        <p>Bonjour, {{ user }}! <a href="/deconnexion">Se déconnecter</a></p>
+        <h2>Liste des films</h2>
+        <ul>
+            {% for film in films %}
+                <li>{{ film.titre }} - <a href="/supprimer/{{ film.id }}">Supprimer</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p><a href="/connexion">Connectez-vous</a> pour accéder à la vidéothèque.</p>
+    {% endif %}
+</body>
+</html>
