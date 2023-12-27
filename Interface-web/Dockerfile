@@ -1,9 +1,11 @@
 FROM python:3.8
 
-RUN pip install flask flask_simplelogin flask.views
-
 WORKDIR /app
 
-COPY app_code/ /app
+COPY requirements.txt /app/requirements.txt
 
-CMD ["python", "manage.py", "runserver"]
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./app_code/ /app
+
+CMD ["python", "app.py", "runserver"]

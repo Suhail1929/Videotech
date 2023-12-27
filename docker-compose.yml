@@ -6,7 +6,7 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./Interface-web/.:/app
+      - ./Interface-web/app_code/.:/app
 
   api-app:
     image: api-app

@@ -1,7 +1,6 @@
 import json
 import os
 from functools import wraps
-from wsgiref.util import application_uri
 
 import click
 from flask import Flask, jsonify, render_template
@@ -10,7 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 # [ -- Utils -- ]
-app = Flask(__name__)
+
 
 def validate_login(user):
     db_users = json.load(open("users.json"))
@@ -47,7 +46,7 @@ def create_user(**data):
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object("settings")
+    #app.config.from_object("settings")
     return app
 
 
@@ -119,24 +118,21 @@ def adduser(app, username, password):
         click.echo("user created!")
 
 
-# @main.command()
-# @click.option("--reloader/--no-reloader", default=None)
-# @click.option("--debug/--no-debug", default=None)
-# @click.option("--host", default=None)
-# @click.option("--port", default=None)
-# @with_app
-# def runserver(app=None, reloader=None, debug=None, host=None, port=None):
-#     """Run the Flask development server i.e. app.run()"""
-#     debug = debug or app.config.get("DEBUG", False)
-#     reloader = reloader or app.config.get("RELOADER", False)
-#     host = host or app.config.get("HOST", "127.0.0.1")
-#     port = port or app.config.get("PORT", 5000)
-#     app.run(use_reloader=reloader, debug=debug, host=host, port=port)
+
+@main.command()
+@with_app
+def runserver(app=None):
+    """Run the Flask development server i.e. app.run()"""
+    app.run(host="0.0.0.0")
 
 
 # [--- Entry point ---]
-
+    
+    
 if __name__ == "__main__":
     # python manage.py to see help
-    # main()
-    app.run(debug=True)
+    main()
+
+
+
+
