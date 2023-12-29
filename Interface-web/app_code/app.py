@@ -3,7 +3,7 @@ import os
 from functools import wraps
 
 import click
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 from flask_simplelogin import Message, SimpleLogin, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -52,9 +52,10 @@ def create_app():
 
 def configure_extensions(app):
     messages = {
-        "login_success": "Welcome!",
-        "is_logged_in": Message("already logged in", "success"),
+        "login_success": Message("Bienvenue!", "success"),
+        "is_logged_in": Message("Vous êtes déjà connecté", "success"),
         "logout": None,
+        "login_failure": Message("Mauvais nom d'utilisateur ou mot de passe", "danger"),
     }
     SimpleLogin(app, login_checker=validate_login, messages=messages)
     if not os.path.exists("users.json"):
@@ -79,10 +80,31 @@ def configure_views(app):
         return jsonify(data="You are logged in with basic auth")
 
     @app.route("/complex")
-    @login_required(username=["admin"])
+    @login_required(username=["admin"] or ["1"])
     def complexview():
         return render_template("secret.html")
 
+    @app.route("/create", methods=["GET", "POST"])
+    def create():
+        if request.method == "POST":
+            # Récupère les données du formulaire
+            username = request.form.get("username")
+            password = request.form.get("password")
+
+            # Vérifie si le nom d'utilisateur existe déjà
+            db_users = json.load(open("users.json"))
+            if username in db_users:
+                with app.app_context():
+                    flash("Ce nom d'utilisateur est déjà pris.", "danger")
+            else:
+                # Crée l'utilisateur
+                create_user(username=username, password=password)
+                with app.app_context():
+                    flash("Compte créé avec succès ! Vous pouvez maintenant vous connecter.", "success")
+                return redirect(url_for("simplelogin.login"))
+
+        # Affiche le formulaire de création de compte
+        return render_template("create.html")
 
 # [--- Command line functions ---]
 
@@ -104,31 +126,12 @@ def with_app(f):
 def main():
     """Flask Simple Login Example App"""
 
-
-@main.command()
-@click.option("--username", required=True, prompt=True)
-@click.option(
-    "--password", required=True, prompt=True, hide_input=True, confirmation_prompt=True
-)
-@with_app
-def adduser(app, username, password):
-    """Add new user with admin access"""
-    with app.app_context():
-        create_user(username=username, password=password)
-        click.echo("user created!")
-
-
-
 @main.command()
 @with_app
 def runserver(app=None):
-    """Run the Flask development server i.e. app.run()"""
     app.run(host="0.0.0.0")
 
-
-# [--- Entry point ---]
-    
-    
+# [--- Entry point ---]    
 if __name__ == "__main__":
     # python manage.py to see help
     main()

@@ -12,7 +12,7 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-<a class="navbar-brand" href="#">My Site</a>
+<a class="navbar-brand" href="#">Vidéothèque</a>
 {% block nav %}
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -24,24 +24,31 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Home</a>
           </li>
-
-          <li class="nav-item">
-                <a class="nav-link" href="{{url_for('secret')}}">Secret</a>
-          </li>
-
-          <li class="nav-item">
-                <a class="nav-link" href="{{url_for('complexview')}}">Validated</a>
-          </li>
-
-          <li class="nav-item">
             {% if is_logged_in() %}
-                <span class="nav-link">{{ get_username() }}
-                <a  href="{{url_for('simplelogin.logout')}}"> Logout</a></span>
+            {% if is_logged_in() and (get_username() == 'admin' or get_username() == '1') %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('secret')}}">Secret</a>
+          </li> 
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('complexview')}}">Espace administrateur</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <span><a href="{{url_for('simplelogin.logout')}}">Déconnexion</a></span>
+          </li>
             {% else %}
-                <a class="nav-link" href="{{url_for('simplelogin.login')}}">Login</a>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('simplelogin.login')}}">Connexion</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('create')}}">Créer un compte</a>
+            </li>            
             {% endif %}
           </li>
-
         </ul>
       </div>
 {% endblock %}
@@ -60,7 +67,7 @@
         {% else %}
           {% if request.path == url_for('simplelogin.login') %}
           <ul class="flashes alert alert-primary">
-            <li>Please provide username and password to login</li>
+            <li>Entrez votre nom d'utilisateur et votre mot de passe ci-dessous</li>
           </ul>
           {% endif %}
         {% endif %}
