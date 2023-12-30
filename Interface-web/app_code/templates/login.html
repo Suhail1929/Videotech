@@ -15,8 +15,12 @@
        <form action="{{ url_for('simplelogin.login') }}" method="post">
             <div class="form-group">
             {{ form.csrf_token }}
-            {{form.username.label}}<div class="form-control">{{ form.username }}</div><br>
-            {{form.password.label}}<div class="form-control"> {{ form.password }}</div><br>
+            <label for="username">Nom d'utilisateur:</label>
+            <input type="text" name="username" class="form-control" required>
+            <br>
+            <label for="password">Mot de passe:</label>
+            <input type="password" name="password" class="form-control" required>
+            <br>
             {% if next %}<input type="hidden" name="next" value="{{next}}">{% endif %}
             </form>
            <input type="submit" value="Envoyer">

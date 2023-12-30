@@ -1,7 +1,7 @@
 import json
 import os
 from functools import wraps
-
+import requests
 import click
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 from flask_simplelogin import Message, SimpleLogin, login_required
@@ -9,37 +9,17 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 # [ -- Utils -- ]
-
+api_url = "http://10.11.5.145:5100"
 
 def validate_login(user):
-    db_users = json.load(open("users.json"))
-    if not db_users.get(user["username"]):
-        return False
-    stored_password = db_users[user["username"]]["password"]
-    if check_password_hash(stored_password, user["password"]):
+
+    # Requête HTTP vers votre API pour valider le login
+    response = requests.post(f"{api_url}/validate_login", json=user)
+
+    # Si la requête est réussie (code 200) et le résultat est True, retournez True
+    if response.status_code == 200 and response.json().get("result") == True:
         return True
     return False
-
-
-def create_user(**data):
-    """Creates user with encrypted password"""
-    if "username" not in data or "password" not in data:
-        raise ValueError("username and password are required.")
-
-    # Hash the user password
-    data["password"] = generate_password_hash(
-        data.pop("password"), method="pbkdf2:sha256"
-    )
-
-    # Here you insert the `data` in your users database
-    # for this simple example we are recording in a json file
-    db_users = json.load(open("users.json"))
-    # add the new created user to json
-    db_users[data["username"]] = data
-    # commit changes to database
-    json.dump(db_users, open("users.json", "w"))
-    return data
-
 
 # [--- Flask Factories  ---]
 
@@ -56,12 +36,13 @@ def configure_extensions(app):
         "is_logged_in": Message("Vous êtes déjà connecté", "success"),
         "logout": None,
         "login_failure": Message("Mauvais nom d'utilisateur ou mot de passe", "danger"),
+        "login_required": Message("Vous devez d'abord vous connecter", "warning"),
     }
     SimpleLogin(app, login_checker=validate_login, messages=messages)
-    if not os.path.exists("users.json"):
-        with open("users.json", "a") as json_file:
-            # This just touch create a new dbfile
-            json.dump({"username": "", "password": ""}, json_file)
+    # if not os.path.exists("users.json"):
+    #     with open("users.json", "a") as json_file:
+    #         # This just touch create a new dbfile
+    #         json.dump({"username": "", "password": ""}, json_file)
 
 
 def configure_views(app):
@@ -84,27 +65,24 @@ def configure_views(app):
     def complexview():
         return render_template("secret.html")
 
-    @app.route("/create", methods=["GET", "POST"])
-    def create():
+    @app.route("/register", methods=["GET", "POST"])
+    def register():
         if request.method == "POST":
             # Récupère les données du formulaire
             username = request.form.get("username")
             password = request.form.get("password")
-
+            data = {'username': username, 'password': password}
+            response = requests.post(f"{api_url}/register", json=data)
             # Vérifie si le nom d'utilisateur existe déjà
-            db_users = json.load(open("users.json"))
-            if username in db_users:
-                with app.app_context():
-                    flash("Ce nom d'utilisateur est déjà pris.", "danger")
-            else:
-                # Crée l'utilisateur
-                create_user(username=username, password=password)
+            if response.status_code == 201 and response.json().get("result") == True:
                 with app.app_context():
                     flash("Compte créé avec succès ! Vous pouvez maintenant vous connecter.", "success")
                 return redirect(url_for("simplelogin.login"))
-
+            else:
+                with app.app_context():
+                    flash("Ce nom d'utilisateur est déjà pris.", "danger")
         # Affiche le formulaire de création de compte
-        return render_template("create.html")
+        return render_template("register.html")
 
 # [--- Command line functions ---]
 

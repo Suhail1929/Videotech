@@ -14,3 +14,4 @@ services:
       - 5100:5000
     volumes:
       - ./API/app_code/.:/app
+    
