@@ -88,7 +88,21 @@ def register():
         return jsonify({'result': False})
     else:
         create_user(username=data["username"], password=data["password"])
-        return jsonify({"result": True}), 201            
+        return jsonify({"result": True}), 201   
+
+
+@app.route('/users', methods=['POST']) 
+def users():
+    with open("votre_fichier.json", "r") as json_file:
+        data = json.load(json_file)
+
+    # Extraire les identifiants (noms d'utilisateur)
+    usernames = [username for username in data.keys() if isinstance(data[username], dict)]
+
+    # Convertir la liste d'identifiants en JSON
+    usernames_json = json.dumps(usernames)
+    return(usernames_json)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

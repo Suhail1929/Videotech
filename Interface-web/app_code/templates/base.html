@@ -32,11 +32,11 @@
           </li> 
 
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('complexview')}}">Espace administrateur</a>
+            <a class="nav-link" href="{{url_for('administrator')}}">Espace administrateur</a>
           </li>
           {% endif %}
           <li class="nav-item">
-            <span><a href="{{url_for('simplelogin.logout')}}">Déconnexion</a></span>
+            <span class="nav-link"><a href="{{url_for('simplelogin.logout')}}">Déconnexion</a></span>
           </li>
             {% else %}
 

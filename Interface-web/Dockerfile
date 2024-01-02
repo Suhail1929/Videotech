@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./app_code/ /app
 
-CMD ["python", "app.py", "runserver"]
+CMD ["python", "app.py"]
