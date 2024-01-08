@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Création de compte {% endblock %}
+
+{% block page_body %}
+    <h2>Ajouter un film</h2>
+    <form method="post" action="{{ url_for('add_film') }}">
+        <label for="title">Titre:</label>
+        <input type="text" name="title" class="form-control" required><br>
+
+        <label for="genre">Genre:</label>
+        <input type="text" name="genre" class="form-control" required><br>
+
+        <label for="director">Réalisateur:</label>
+        <input type="text" name="director" class="form-control" required><br>
+
+        <label for="actors">Acteurs (séparés par des virgules):</label>
+        <input type="text" name="actors" class="form-control" required><br>
+
+        <label for="year">Année:</label>
+        <input type="text" name="year" class="form-control" required><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" rows="4" cols="75" style="display: block;"></textarea><br>
+
+        <input type="submit" value="Ajouter le film">
+    </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Espace administrateur{% endblock %}
+
+{% block page_body %}
+    <div class="row">
+        <p>
+            <h1>Liste des utilisateurs</h1>
+        </p>
+        <ul>
+            {% for user_data in users.items() %}
+                <li>{{ user_data.username }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
