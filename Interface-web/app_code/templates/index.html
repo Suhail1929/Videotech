@@ -5,7 +5,7 @@
 {% if is_logged_in() %}
     <h1>Liste des films</h1>
     <ul>
-        {% for film in films %}
+        {% for film in films|sort(attribute='title') %}
             <li>
                 <strong>{{ film.title }}</strong> ({{ film.year }})<br>
                 Genre: {{ film.genre }}<br>
@@ -15,5 +15,7 @@
             </li>
         {% endfor %}
     </ul>
+{% else %}
+    <h1>Connectez vous ou créez un compte pour accéder à la vidéothèque</h1>
 {% endif %}
 {% endblock %}
