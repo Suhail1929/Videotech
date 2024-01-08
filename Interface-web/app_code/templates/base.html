@@ -9,6 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='images/icon.png') }}" rel="icon">
 </head>
 
 <body>
@@ -46,7 +47,8 @@
           <a href="{{url_for('simplelogin.logout')}}" class="btn btn-outline-danger me-2">Déconnexion</a>
           {% else %}
           <a href="{{url_for('simplelogin.login')}}" class="btn btn-outline-light me-2">Connexion</a>
-          <a href="{{url_for('register')}}" class="btn btn-warning insc-btn" style="background-color: #FF3131 !important;">S'inscrire</a>
+          <a href="{{url_for('register')}}" class="btn btn-warning insc-btn"
+            style="background-color: #FF3131 !important;">S'inscrire</a>
           {% endif %}
         </div>
       </div>
@@ -55,7 +57,7 @@
 
   {% endblock %}
 
-  <div class="jumbotron">
+  <!-- <div class="jumbotron p-4 p-md-5 text-white rounded text-secondary">
     <div class="container">
       {% block messages %}
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -75,7 +77,7 @@
       {% endwith %}
       {% endblock %}
     </div>
-  </div>
+  </div> -->
   {% block page_body %}
   <div class="container">
 

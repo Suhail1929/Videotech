@@ -1,28 +1,37 @@
 {% extends 'base.html' %}
 {% block title %}Login{% endblock %}
+
 {% block messages %}
-   {{super()}}
-   {%if form.errors %}
-     <ul class="alert alert-danger">
-       {% for field, errors in form.errors.items() %}
-         <li>{{field}} {% for error in errors %}{{ error }}{% endfor %}</li>
-       {% endfor %}
-     </ul>
-   {% endif %}
+{{super()}}
+{%if form.errors %}
+<ul class="alert alert-danger">
+  {% for field, errors in form.errors.items() %}
+  <li>{{field}} {% for error in errors %}{{ error }}{% endfor %}</li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}
 
 {% block page_body %}
-       <form action="{{ url_for('simplelogin.login') }}" method="post">
-            <div class="form-group">
-            {{ form.csrf_token }}
-            <label for="username">Nom d'utilisateur:</label>
-            <input type="text" name="username" class="form-control" required>
-            <br>
-            <label for="password">Mot de passe:</label>
-            <input type="password" name="password" class="form-control" required>
-            <br>
-            {% if next %}<input type="hidden" name="next" value="{{next}}">{% endif %}
-            </form>
-           <input type="submit" value="Envoyer">
-       </form>
+<div class="py-5 text-center">
+  <i class="bi bi-person-circle" style="font-size: 4rem; color: #FF3131;"></i>
+  <h2>Connexion</h2>
+  <div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
+    <div class="col-md-7 col-lg-3">
+      <form action="{{ url_for('simplelogin.login') }}" method="post">
+        <div class="form-group">
+          {{ form.csrf_token }}
+          <label for="username">Nom d'utilisateur:</label>
+          <input type="text" name="username" class="form-control" required>
+          <br>
+          <label for="password">Mot de passe:</label>
+          <input type="password" name="password" class="form-control" required>
+          <br>
+          {% if next %}<input type="hidden" name="next" value="{{next}}">{% endif %}
+          <input type="submit" value="Envoyer" class="btn main-btn">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
