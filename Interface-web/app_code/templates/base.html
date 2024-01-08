@@ -36,6 +36,9 @@
           </li>
           {% endif %}
           <li class="nav-item">
+            <span class="nav-link"><a href="{{url_for('add_film')}}">Ajouter un film</a></span>
+          </li>
+          <li class="nav-item">
             <span class="nav-link"><a href="{{url_for('simplelogin.logout')}}">Déconnexion</a></span>
           </li>
             {% else %}
@@ -75,7 +78,6 @@
     {% endblock %}
     </div>
 </div>
-
 <div class="container">
 {% block page_body %}
 <div class="row">
@@ -84,18 +86,6 @@
 </p>
 </div>
 {% endblock %}
-</div>
-
-<div class="container">
-<footer>
-{% block footer %}
-    <address>
-    Written by <a href="mailto:webmaster@example.com">Jon Doe</a>.<br>
-    Visit us at: Example.com Box 564, Disneyland USA<br>
-    Copyright 1996
-    </address>
-{% endblock %}
-</footer>
 </div>
 
 {% block tail%}

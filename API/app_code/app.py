@@ -10,7 +10,7 @@ api = Api(app)
 
 @app.route('/')
 def hello():
-    return 'Hello, AdddddPIs'
+    return 'Hello, AdPIs'
 
 # Charger les données depuis le fichier JSON au démarrage de l'application
 DATA_FILE = "videolibrary.json"
@@ -76,7 +76,7 @@ def create_user(**data):
     # add the new created user to json
     db_users[data["username"]] = data
     # commit changes to database
-    json.dump(db_users, open("users.json", "w"))
+    json.dump(db_users, open("users.json", "w"),indent=1)
     return data
 
 
@@ -103,6 +103,56 @@ def users():
     usernames_json = json.dumps(usernames)
     return(usernames_json)
 
+
+def load_films():
+    try:
+        with open('films.json', 'r') as file:
+            films = json.load(file)
+    except FileNotFoundError:
+        films = []
+    return films
+
+# Fonction pour enregistrer les films dans le fichier JSON
+def save_films(films):
+    with open('films.json', 'w') as file:
+        json.dump(films, file, indent=2)
+
+# Route pour ajouter un film
+@app.route('/add_film', methods=['POST'])
+def add_film():
+    data = request.json  # Supposons que les données sont envoyées en tant qu'objet JSON
+    title = data['title']
+    genre = data['genre']
+    director = data['director']
+    actors = data['actors']
+    year = data['year']
+    description = data['description']
+
+    # Charger les films existants
+    films = load_films()
+
+    # Ajouter le nouveau film à la liste
+    new_film = {
+        'title': title,
+        'genre': genre,
+        'director': director,
+        'actors': actors,
+        'year': year,
+        'description': description
+    }
+
+    films.append(new_film)
+
+    # Enregistrer les films mis à jour
+    save_films(films)
+    return jsonify({"result": True}), 201
+
+
+@app.route('/get_films', methods=['GET'])
+def get_films():
+    # Charger les films existants
+    films = load_films()
+    return jsonify(films), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
