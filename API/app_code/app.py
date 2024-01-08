@@ -6,6 +6,7 @@ from flask_simplelogin import Message, SimpleLogin, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 api = Api(app)
 
 @app.route('/')

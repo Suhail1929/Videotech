@@ -115,6 +115,7 @@ def configure_views(app):
 
 def runserver(app=None):
     app = Flask(__name__)
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
     configure_extensions(app)
     configure_views(app)
     app.run(host="0.0.0.0")
