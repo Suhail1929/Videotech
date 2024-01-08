@@ -3,6 +3,7 @@ version: '3.7'
 services:
   flask-app:
     image: flask-app
+    build: ./Interface-web
     ports:
       - 5000:5000
     volumes:
@@ -10,6 +11,7 @@ services:
       
   api-app:
     image: api-app
+    build: ./API
     ports:
       - 5100:5000
     volumes:

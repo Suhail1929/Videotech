@@ -1,0 +1,65 @@
+/* Option 2: Import via CSS */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css");
+
+/*header*/
+.form-control-dark {
+  border-color: var(--bs-gray);
+}
+
+.form-control-dark:focus {
+  border-color: #fff;
+  box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
+}
+
+.text-small {
+  font-size: 85%;
+}
+
+.dropdown-toggle:not(:focus) {
+  outline: 0;
+}
+
+#header a {
+  color: #fff !important;
+  font-size: large;
+}
+
+#header a:hover {
+  color: #FF3131 !important;
+  text-decoration: none;
+}
+
+.title {
+  color: #FF3131 !important;
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.list li {
+  font-size: 18px;
+  font-weight: lighter;
+
+}
+
+.insc-btn {
+  background-color: #FF3131 !important;
+  border-color: #FF3131 !important;
+  color: #fff !important;
+}
+
+.insc-btn:hover {
+  color:#382727 !important;
+}
+
+.main-btn {
+  background-color: #FF3131 !important;
+  border-color: #FF3131 !important;
+  color: #fff !important;
+}
+
+.main-btn:hover {
+  color:#382727 !important;
+}
+
+/*color: #FF3131;*/

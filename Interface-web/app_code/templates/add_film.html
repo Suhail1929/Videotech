@@ -1,28 +1,67 @@
 {% extends 'base.html' %}
 
-{% block title %} Création de compte {% endblock %}
+{% block title %} Ajout de films {% endblock %}
 
 {% block page_body %}
+
+<div class="py-5 text-center">
+    <i class="bi bi-film" style="font-size: 4rem; color: #FF3131;"></i><i class="bi bi-plus-circle-fill"
+        style="font-size: 2rem; color: #FF3131;"></i>
     <h2>Ajouter un film</h2>
-    <form method="post" action="{{ url_for('add_film') }}">
-        <label for="title">Titre:</label>
-        <input type="text" name="title" class="form-control" required><br>
+</div>
+<div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
+    <div class="col-md-7 col-lg-8">
+        <form class="needs-validation" method="post" action="{{ url_for('add_film') }}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="title">Titre*</label>
+                    <input type="text" name="title" class="form-control" required>
+                </div>
 
-        <label for="genre">Genre:</label>
-        <input type="text" name="genre" class="form-control" required><br>
+                <div class="col-md-6">
+                    <label class="form-label" for="genre">Genre*</label>
+                    <select class="form-select" name="genre" required>
+                        <option selected disabled value="">...</option>
+                        <option value="Action">Action</option>
+                        <option value="Aventure">Aventure</option>
+                        <option value="Comédie">Comédie</option>
+                        <option value="Drame">Drame</option>
+                        <option value="Fantastique">Fantastique</option>
+                        <option value="Horreur">Horreur</option>
+                        <option value="Policier">Policier</option>
+                        <option value="Science-fiction">Science-fiction</option>
+                        <option value="Thriller">Thriller</option>
+                    </select>
+                </div>
 
-        <label for="director">Réalisateur:</label>
-        <input type="text" name="director" class="form-control" required><br>
+                <div class="col-md-6">
+                    <label class="form-label" for="director">Réalisateur*</label>
+                    <input type="text" name="director" class="form-control" required>
+                </div>
 
-        <label for="actors">Acteurs (séparés par des virgules):</label>
-        <input type="text" name="actors" class="form-control" required><br>
+                <div class="col-md-6">
+                    <label class="form-label" for="year">Année*</label>
+                    <input type="number" name="year" class="form-control" required>
+                </div>
 
-        <label for="year">Année:</label>
-        <input type="text" name="year" class="form-control" required><br>
+                <div class="col-md-12">
+                    <label class="form-label" for="actors">Acteurs (séparés par des virgules)*</label>
+                    <input type="text" name="actors" class="form-control" required>
+                </div>
 
-        <label for="description">Description:</label>
-        <textarea name="description" rows="4" cols="75" style="display: block;"></textarea><br>
 
-        <input type="submit" value="Ajouter le film">
-    </form>
+                <div class="col-md-12">
+                    <label class="form-label" for="description">Description*</label>
+                    <textarea class="form-control" name="description" rows="4" cols="75"
+                        style="display: block;height: 10rem;"></textarea>
+                </div>
+
+                <button type="submit" class="btn main-btn">Ajouter</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
 {% endblock %}
