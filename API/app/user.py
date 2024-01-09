@@ -6,62 +6,70 @@ from flask_restful import Api, Resource
 from flask_simplelogin import Message, SimpleLogin, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
+class UserDatabase:
+    def __init__(self):
+        pass
+    
+    def validate_login(self, user):
+        username = user.get('username')
+        password = user.get('password')
+        users = self.load_users()
 
-
-def validate_login(user):
-    db_users = json.load(open("DB/users.json"))
-    if not db_users.get(user["username"]):
+        for u in users:
+            if u.get('username') == username and check_password_hash(u.get('password'), password):
+                return True
+        
         return False
-    stored_password = db_users[user["username"]]["password"]
-    if check_password_hash(stored_password, user["password"]):
+    
+    def load_users(self):
+        try:
+            with open('DB/users.json', 'r') as file:
+                users = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            users = []  # In case of file not found or invalid JSON data, return an empty dictionary
+        return users
+
+    def create_user(self, username, password, role="user"):
+        """Creates user with encrypted password"""
+        users = self.load_users()
+
+        if users and any(user.get('username') == username for user in users):
+            return False  # User already exists
+        
+        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
+        new_users = {"username": username, "password": hashed_password , "role": role}
+        
+        users.append(new_users)
+        
+        with open('DB/users.json', 'w') as file:
+            json.dump(users, file, indent=2)
+        
         return True
-    return False
+
+    def get_users(self):
+        with open("DB/users.json", "r") as json_file:
+            data = json.load(json_file)
+        usernames = [username for username in data.keys() if isinstance(data[username], dict)]
+        return usernames
+
+user_db = UserDatabase()
 
 @app.route("/validate_login", methods=["POST"])
 def api_validate_login():
-    user = request.json  # Récupère les données du formulaire depuis la requête JSON
-    result = validate_login(user)
+    user = request.json  # Get form data from JSON request
+    result = user_db.validate_login(user)
     return jsonify({"result": result})
-
-def create_user(**data):
-    """Creates user with encrypted password"""
-    if "username" not in data or "password" not in data:
-        raise ValueError("username and password are required.")
-
-    # Hash the user password
-    data["password"] = generate_password_hash(
-        data.pop("password"), method="pbkdf2:sha256"
-    )
-
-    # Here you insert the `data` in your users database
-    # for this simple example we are recording in a json file
-    db_users = json.load(open("DB/users.json"))
-    # add the new created user to json
-    db_users[data["username"]] = data
-    # commit changes to database
-    json.dump(db_users, open("DB/users.json", "w"),indent=1)
-    return data
-
 
 @app.route('/register', methods=['POST'])
 def register():
-    data = request.json  # Assurez-vous que le contenu est au format JSON
-    db_users = json.load(open("DB/users.json"))
-    if db_users.get(data["username"]):
-        return jsonify({'result': False})
-    else:
-        create_user(username=data["username"], password=data["password"])
-        return jsonify({"result": True}), 201   
+    data = request.json  # Ensure content is in JSON format
+    result = user_db.create_user(data["username"], data["password"])
+    return jsonify({"result": result}), 201 if result else 400
+
+@app.route('/get_users', methods=['GET'])
+def get_users():
+    users = user_db.load_users()
+    return jsonify(users), 200
 
 
-@app.route('/users', methods=['POST']) 
-def users():
-    with open("votre_fichier.json", "r") as json_file:
-        data = json.load(json_file)
-
-    # Extraire les identifiants (noms d'utilisateur)
-    usernames = [username for username in data.keys() if isinstance(data[username], dict)]
-
-    # Convertir la liste d'identifiants en JSON
-    usernames_json = json.dumps(usernames)
-    return(usernames_json)
+    
