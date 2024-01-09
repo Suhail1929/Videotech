@@ -12,5 +12,9 @@
  "2": {
   "username": "2",
   "password": "pbkdf2:sha256:600000$RBF0fWuMBw3DazT7$2813cfb4d087fe0c8c61ce5899020f8bdfa3a8699a13bac03d9bde0af1d3551a"
+ },
+ "3": {
+  "username": "3",
+  "password": "pbkdf2:sha256:600000$PrjiWnfsJwmOLUbj$ee28d20f160ab995a270e82e79123f262de855f8ec792e44f0352cd1942d1268"
  }
 }
