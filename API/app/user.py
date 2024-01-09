@@ -9,7 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 def validate_login(user):
-    db_users = json.load(open("users.json"))
+    db_users = json.load(open("DB/users.json"))
     if not db_users.get(user["username"]):
         return False
     stored_password = db_users[user["username"]]["password"]
@@ -35,18 +35,18 @@ def create_user(**data):
 
     # Here you insert the `data` in your users database
     # for this simple example we are recording in a json file
-    db_users = json.load(open("users.json"))
+    db_users = json.load(open("DB/users.json"))
     # add the new created user to json
     db_users[data["username"]] = data
     # commit changes to database
-    json.dump(db_users, open("users.json", "w"),indent=1)
+    json.dump(db_users, open("DB/users.json", "w"),indent=1)
     return data
 
 
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json  # Assurez-vous que le contenu est au format JSON
-    db_users = json.load(open("users.json"))
+    db_users = json.load(open("DB/users.json"))
     if db_users.get(data["username"]):
         return jsonify({'result': False})
     else:

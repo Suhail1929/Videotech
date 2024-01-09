@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 def load_films():
     try:
-        with open('films.json', 'r') as file:
+        with open('DB/films.json', 'r') as file:
             films = json.load(file)
     except FileNotFoundError:
         films = []
@@ -16,7 +16,7 @@ def load_films():
 
 # Fonction pour enregistrer les films dans le fichier JSON
 def save_films(films):
-    with open('films.json', 'w') as file:
+    with open('DB/films.json', 'w') as file:
         json.dump(films, file, indent=2)
 
 # Route pour ajouter un film
