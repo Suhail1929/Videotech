@@ -3,8 +3,7 @@ import json
 import os
 import requests
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
-from flask_simplelogin import Message, SimpleLogin, login_required
-
+from flask_simplelogin import Message, SimpleLogin, login_required , get_username
 
 @app.route("/")
 def index():
@@ -12,12 +11,17 @@ def index():
     response = requests.get(f"{api_url}/get_films")
     films = response.json() if response.status_code == 200 else []
     # Passez la liste des films au template Jinja
-    return render_template('index.html', films=films)
+    reponse_user = requests.get(f"{api_url}/get_users")
+    users = reponse_user.json() if reponse_user.status_code == 200 else []
+    #chercher le nom d'utilisateur
+    user = None
+    username = get_username()
+    for u in users:
+        if u.get('username') == username:
+            user = u
+        
+    return render_template('index.html', films=films, user=user)
 
-@app.route("/secret")
-@login_required()
-def secret():
-    return render_template("secret.html")
 
 @app.route("/api", methods=["POST"])
 @login_required(basic=True)
@@ -25,17 +29,19 @@ def api():
     return jsonify(data="You are logged in with basic auth")
 
 @app.route("/administrator")
-@login_required(username=["admin"] or ["1"])
+@login_required()
 def administrator():
-    response = requests.get(f"{api_url}/users")
-    # Vérifier si la requête a réussi (code de statut HTTP 200)
-    if response.status_code == 200:
-        # Analyser la réponse JSON
-        users = response.json()
-        users = list(users)               
-    else:
-        print(f"Erreur lors de la requête : {response.status_code}")
-    return render_template("administrator.html", users=users)
+    reponse_user = requests.get(f"{api_url}/get_users")
+    users = reponse_user.json() if reponse_user.status_code == 200 else []
+    #chercher le nom d'utilisateur
+    user = None
+    username = get_username()
+    for u in users:
+        if u.get('username') == username:
+            user = u
+    if user.get('role') != 'admin':
+        return redirect(url_for('index'))
+    return render_template("administrator.html", users=users , user=user)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -85,4 +91,14 @@ def add_film():
             return redirect(url_for('add_film'))
         else:
             flash('Erreur lors de l\'ajout du film. Veuillez réessayer.', 'danger')
-    return render_template('add_film.html')
+        
+    reponse_user = requests.get(f"{api_url}/get_users")
+    users = reponse_user.json() if reponse_user.status_code == 200 else []
+    #chercher le nom d'utilisateur
+    user = None
+    username = get_username()
+    for u in users:
+        if u.get('username') == username:
+            user = u
+                
+    return render_template('add_film.html', user=user)

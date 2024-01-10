@@ -26,17 +26,13 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" id="header">
           <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
 
-          {% if is_logged_in() and (get_username() == 'admin' or get_username() == '1') %}
-
-          <li class="nav-item">
-            <a class="nav-link px-2 text-secondary" href="{{url_for('secret')}}">Secret</a>
-          </li>
+          {% if is_logged_in() and (user.role == 'admin') %}
 
           <li class="nav-item">
             <a class="nav-link px-2 text-secondary" href="{{url_for('administrator')}}">Espace administrateur</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link px-2 text-secondary" href="{{url_for('add_film')}}">Ajouter un film</a></span>
+            <a class="nav-link px-2 text-secondary" href="{{url_for('add_film')}}">Gérer les films</a>
           </li>
           {% endif %}
 

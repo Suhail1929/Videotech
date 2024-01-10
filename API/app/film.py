@@ -6,52 +6,61 @@ from flask_restful import Api, Resource
 from flask_simplelogin import Message, SimpleLogin, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
-def load_films():
-    try:
-        with open('DB/films.json', 'r') as file:
-            films = json.load(file)
-    except FileNotFoundError:
-        films = []
-    return films
+class FilmDatabase:
+    def __init__(self):
+        pass
 
-# Fonction pour enregistrer les films dans le fichier JSON
-def save_films(films):
-    with open('DB/films.json', 'w') as file:
-        json.dump(films, file, indent=2)
+    def load_films(self):
+        try:
+            with open('DB/films.json', 'r') as file:
+                films = json.load(file)
+        except FileNotFoundError:
+            films = []
+        return films
 
-# Route pour ajouter un film
+    def save_films(self, films):
+        with open('DB/films.json', 'w') as file:
+            json.dump(films, file, indent=2)
+
+    def add_film(self, data):
+        title = data['title']
+        genre = data['genre']
+        director = data['director']
+        actors = data['actors']
+        year = data['year']
+        description = data['description']
+
+        # Load existing films
+        films = self.load_films()
+
+        # Add the new film to the list
+        new_film = {
+            'title': title,
+            'genre': genre,
+            'director': director,
+            'actors': actors,
+            'year': year,
+            'description': description
+        }
+
+        films.append(new_film)
+
+        # Save the updated films
+        self.save_films(films)
+        return {"result": True}, 201
+
+film_db = FilmDatabase()
+
 @app.route('/add_film', methods=['POST'])
 def add_film():
-    data = request.json  # Supposons que les données sont envoyées en tant qu'objet JSON
-    title = data['title']
-    genre = data['genre']
-    director = data['director']
-    actors = data['actors']
-    year = data['year']
-    description = data['description']
+    data = request.json  # Assuming data is sent as a JSON object
+    result, status_code = film_db.add_film(data)
+    return jsonify(result), status_code
 
-    # Charger les films existants
-    films = load_films()
-
-    # Ajouter le nouveau film à la liste
-    new_film = {
-        'title': title,
-        'genre': genre,
-        'director': director,
-        'actors': actors,
-        'year': year,
-        'description': description
-    }
-
-    films.append(new_film)
-
-    # Enregistrer les films mis à jour
-    save_films(films)
-    return jsonify({"result": True}), 201
 
 
 @app.route('/get_films', methods=['GET'])
 def get_films():
     # Charger les films existants
-    films = load_films()
+    films = film_db.load_films()
     return jsonify(films), 200

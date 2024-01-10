@@ -2,14 +2,29 @@
 {% block title %}Espace administrateur{% endblock %}
 
 {% block page_body %}
-    <div class="row">
-        <p>
-            <h1>Liste des utilisateurs</h1>
-        </p>
-        <ul>
-            {% for user_data in users.items() %}
-                <li>{{ user_data.username }}</li>
-            {% endfor %}
-        </ul>
+
+<h1 class="text-center title">Espace administrateur</h1>
+
+<h4 class="text-center">Liste des utilisateurs</h4>
+
+<div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
+    <div class="col-md-7 col-lg-8">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">username</th>
+                    <th scope="col">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_data in users %}
+                <tr>
+                    <td>{{ user_data.username }}</td>
+                    <td>{{ user_data.role }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
 {% endblock %}
