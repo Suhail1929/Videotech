@@ -29,42 +29,34 @@
             <h1 class="text-center title">Liste des films</h1>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% for film in films|sort(attribute='title') %}
+            {% for film in api_films.results %}
+            {% if film.primaryImage != null %}
             <div class="col">
-                <div class="card shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Photo film"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em">Photo film</text>
-                    </svg>
+                <div class="card shadow-sm"
+                    style="height: 100%;border: none;height: 100%;background-color: #dadce7;">
+
+                    <img src="{{ film.primaryImage.url }}" alt="{{ film.titleText.text }}" width="100%" height="525"
+                        class="card-img-top" alt="...">
 
                     <div class="card-body">
                         <h2 class="card-title text-center" style="font-size: 1.5rem;color: #FF3131 !important;">
-                            {{ film.title }}
+                            {{ film.titleText.text }}
                         </h2>
-                        <ul class="list-group list-group-flush list">
-                            <li class="list-group-item"><i class="bi bi-film"></i> Genre: {{ film.genre }}</li>
-                            <li class="list-group-item"><i class="bi bi-person-heart"></i> Réalisateur: {{ film.director
-                                }}</li>
-                            <li class="list-group-item"><i class="bi bi-people-fill"></i> Acteurs: {{ ',
-                                '.join(film.actors) }}</li>
-                            <li class="list-group-item"><i class="bi bi-card-text"></i> Déscription : <p
-                                    class="card-text">{{ film.description }}</p>
-                            </li>
-                        </ul>
+                        <p>{{film.primaryImage.caption.plainText }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm main-btn"> <i class="bi bi-search"></i> Découvrir</button>
+                                <button type="button" class="btn btn-sm main-btn"> <i class="bi bi-search"></i>
+                                    Découvrir</button>
                             </div>
-                            <small class="text-body-secondary"><i class="bi bi-clock"></i> Année: {{ film.year
-                                }}</small>
+                            <small class="text-body-secondary"><i class="bi bi-clock"></i> Année: {{
+                                film.releaseYear.year }}
+                            </small>
                         </div>
                     </div>
 
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>

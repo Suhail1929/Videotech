@@ -5,6 +5,26 @@ import requests
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 from flask_simplelogin import Message, SimpleLogin, login_required , get_username
 
+def validate_login(user):
+
+    # Requête HTTP vers votre API pour valider le login
+    response = requests.post(f"{api_url}/validate_login", json=user)
+
+    # Si la requête est réussie (code 200) et le résultat est True, retournez True
+    if response.status_code == 200 and response.json().get("result") == True:
+        return True
+    return False
+
+# [--- Flask Factories  ---]
+messages = {
+    "login_success": Message("Bienvenue!", "success"),
+    "is_logged_in": Message("Vous êtes déjà connecté", "success"),
+    "logout": None,
+    "login_failure": Message("Mauvais nom d'utilisateur ou mot de passe", "danger"),
+    "login_required": Message("Vous devez d'abord vous connecter", "warning"),
+}
+SimpleLogin(app, login_checker=validate_login, messages=messages)
+
 @app.route("/")
 def index():
     # Faites une requête à votre API pour obtenir la liste des films
@@ -13,14 +33,17 @@ def index():
     # Passez la liste des films au template Jinja
     reponse_user = requests.get(f"{api_url}/get_users")
     users = reponse_user.json() if reponse_user.status_code == 200 else []
+    # La liste des films de IMDB
+    response_api = requests.get(f"{api_url}/get_movies")
+    api_films = response_api.json() if response_api.status_code == 200 else []
     #chercher le nom d'utilisateur
     user = None
     username = get_username()
     for u in users:
         if u.get('username') == username:
             user = u
-        
-    return render_template('index.html', films=films, user=user)
+            
+    return render_template('index.html', films=films, user=user , api_films=api_films)
 
 
 @app.route("/api", methods=["POST"])

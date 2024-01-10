@@ -9,6 +9,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 from user import *
 from film import *
+from MoviesAPI import *
 
 
 if __name__ == '__main__':
