@@ -63,3 +63,29 @@
 }
 
 /*color: #FF3131;*/
+
+.link-film {
+  position: relative;
+  height: 100%;
+  border: none;
+  height: 100%;
+  background-color: #dadce7;
+}
+
+.link-film::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  /* Couleur noire transparente */
+  transition: background 0.3s ease;
+  /* Ajouter une transition fluide */
+}
+
+.link-film:hover::before {
+  background: rgba(0, 0, 0, 0.5);
+  /* Couleur noire transparente avec une opacité de 0.5 lorsqu'il est survolé */
+}

@@ -5,83 +5,99 @@ from flask import Flask, request, jsonify, redirect, url_for
 from flask_restful import Api, Resource
 import requests
 
+api_key = '3e7cfcbbde83ea4fac4e860b482ead1c'
+
 headers = {
-    "X-RapidAPI-Key": "e9a3b6cd69msh586db169351ffb7p163bb1jsnaa1c07fd0927",
-    "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZTdjZmNiYmRlODNlYTRmYWM0ZTg2MGI0ODJlYWQxYyIsInN1YiI6IjY1OWZhYjg4MmUwNjk3MDEzMDc0NTIwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Xy6h82kB8u6wBsgAKg3ePYTCrHlraw1elxIOOkL3yTE',
+    'accept': 'application/json'
 }
 
 @app.route('/get_movies', methods=['GET'])
 def get_movies():
     
-    url = "https://moviesdatabase.p.rapidapi.com/titles"
+    url = "https://api.themoviedb.org/3/discover/movie"
     
-    querystring = {"limit":"50" , "list":"top_boxoffice_200"}
-
-    response = requests.get(url, headers=headers , params=querystring)
+    params = { 'api_key': api_key , 'language': 'en-US' , 'page': 10 , 'sort_by': 'popularity.desc' , 'include_adult': 'false' , 'include_video': 'false' }
     
-    return response.json()
-
-@app.route('/get_movies_by_year/<year>', methods=['GET'])
-def get_movies_by_year(year):
+    response = requests.get(url, headers=headers, params=params)
     
-    url = "https://moviesdatabase.p.rapidapi.com/titles"
+    # If the request was successful, extract the films from the response
+    if response.status_code == 200:
+        films = response.json()["results"]
 
-    querystring = {"year": year , "limit":"50"}
+    # Make subsequent requests to get the next 20 films, 40 films, and so on
+    for i in range(2, 100, 20):
+        params["page"] = i
+        response = requests.get(url, params=params)
 
-    response = requests.get(url, headers=headers, params=querystring)
+        # If the request was successful, append the films to the list
+        if response.status_code == 200:
+            films += response.json()["results"]
     
-    return response.json()
-
-@app.route('/get_movies_by_genre/<genre>', methods=['GET'])
-def get_movies_by_genre(genre):
     
-    url = "https://moviesdatabase.p.rapidapi.com/titles"
+    return jsonify(films)
 
-    querystring = {"genre": genre , "limit":"50"}
-
-    response = requests.get(url, headers=headers, params=querystring)
+# @app.route('/get_movies_by_year/<year>', methods=['GET'])
+# def get_movies_by_year(year):
     
-    return response.json()
+#     url = "https://moviesdatabase.p.rapidapi.com/titles"
 
+#     querystring = {"year": year , "limit":"50"}
 
-@app.route('/get_movies_by_title/<title>', methods=['GET'])
-def get_movies_by_title(title):
+#     response = requests.get(url, headers=headers, params=querystring)
     
-    url = "https://moviesdatabase.p.rapidapi.com/titles/search/title/"+title
+#     return response.json()
 
-    querystring = {"exact":"true","titleType":"movie"}
-
-    response = requests.get(url, headers=headers, params=querystring)
+# @app.route('/get_movies_by_genre/<genre>', methods=['GET'])
+# def get_movies_by_genre(genre):
     
-    return response.json()
+#     url = "https://moviesdatabase.p.rapidapi.com/titles"
 
-@app.route('/get_movies_by_titleType/<titleType>', methods=['GET'])
-def get_movies_by_titleType(titleType):
+#     querystring = {"genre": genre , "limit":"50"}
+
+#     response = requests.get(url, headers=headers, params=querystring)
     
-    url = "https://moviesdatabase.p.rapidapi.com/titles"
+#     return response.json()
 
-    querystring = {"titleType": titleType , "limit":"50"}
 
-    response = requests.get(url, headers=headers, params=querystring)
+# @app.route('/get_movies_by_title/<title>', methods=['GET'])
+# def get_movies_by_title(title):
     
-    return response.json()
+#     url = "https://moviesdatabase.p.rapidapi.com/titles/search/title/"+title
 
-@app.route('/get_genres', methods=['GET'])
-def get_genres():
+#     querystring = {"exact":"true","titleType":"movie"}
+
+#     response = requests.get(url, headers=headers, params=querystring)
     
-    url = "https://moviesdatabase.p.rapidapi.com/titles/utils/genres"
+#     return response.json()
 
-    response = requests.get(url, headers=headers)
+# @app.route('/get_movies_by_titleType/<titleType>', methods=['GET'])
+# def get_movies_by_titleType(titleType):
     
-    return response.json()
+#     url = "https://moviesdatabase.p.rapidapi.com/titles"
 
+#     querystring = {"titleType": titleType , "limit":"50"}
 
-@app.route('/get_titleType', methods=['GET'])
-def get_titleType():
+#     response = requests.get(url, headers=headers, params=querystring)
     
-    url = "https://moviesdatabase.p.rapidapi.com/titles/utils/titleTypes"
+#     return response.json()
 
-    response = requests.get(url, headers=headers, params=querystring)
+# @app.route('/get_genres', methods=['GET'])
+# def get_genres():
     
-    return response.json()
+#     url = "https://moviesdatabase.p.rapidapi.com/titles/utils/genres"
+
+#     response = requests.get(url, headers=headers)
+    
+#     return response.json()
+
+
+# @app.route('/get_titleType', methods=['GET'])
+# def get_titleType():
+    
+#     url = "https://moviesdatabase.p.rapidapi.com/titles/utils/titleTypes"
+
+#     response = requests.get(url, headers=headers, params=querystring)
+    
+#     return response.json()
 
