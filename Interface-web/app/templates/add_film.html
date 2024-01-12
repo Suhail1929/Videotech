@@ -12,7 +12,7 @@
 <div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
     <div class="col-md-7 col-lg-8">
         <form class="needs-validation" method="post" action="{{ url_for('add_film') }}">
-            <div class="row g-3">
+            <div class="row g-3 text-white">
                 <div class="col-md-6">
                     <label class="form-label" for="title">Titre*</label>
                     <input type="text" name="title" class="form-control" required>
@@ -39,10 +39,16 @@
                     <input type="text" name="director" class="form-control" required>
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label" for="year">Année*</label>
-                    <input type="number" name="year" class="form-control" required>
+                <label class="form-label" for="year">Date de sortie* </label>
+                    <input type="date" name="year" class="form-control" required>
                 </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="duree">Durée en minutes*</label>
+                    <input type="number" name="duree" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="production">Production* </label>
+                    <input type="text" name="production" class="form-control" required>
 
                 <div class="col-md-12">
                     <label class="form-label" for="actors">Acteurs (séparés par des virgules)*</label>

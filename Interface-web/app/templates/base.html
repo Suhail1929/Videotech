@@ -32,8 +32,10 @@
           <li class="nav-item">
             <a class="nav-link px-2 text-secondary" href="{{url_for('administrator')}}">Espace administrateur</a>
           </li>
+          {% endif %}
+          {% if is_logged_in() %}
           <li class="nav-item">
-            <a class="nav-link px-2 text-secondary" href="{{url_for('add_film')}}">Gérer les films</a>
+            <a class="nav-link px-2 text-secondary" href="{{url_for('add_film')}}">Ajouter un film</a>
           </li>
           {% endif %}
 

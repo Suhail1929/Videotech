@@ -50,7 +50,26 @@ class UserDatabase:
         with open("DB/users.json", "r") as json_file:
             data = json.load(json_file)
         usernames = [username for username in data.keys() if isinstance(data[username], dict)]
-        return usernames
+        return usernames 
+
+    def delete_users(self, username):
+        users = self.load_users()
+        new_users = [user for user in users if user.get('username') != username]
+        if users == new_users:
+            return False
+        with open("DB/users.json", "w") as json_file:
+            json.dump(new_users, json_file) 
+            return True
+        
+    def update_roles(self, username, role):
+            users = self.load_users()
+            for u in users:
+                if u.get('username') == username:
+                    u['role'] = role
+                    with open("DB/users.json", "w") as json_file:
+                        json.dump(users, json_file) 
+                    return True
+            return False    
 
 user_db = UserDatabase()
 
@@ -71,5 +90,19 @@ def get_users():
     users = user_db.load_users()
     return jsonify(users), 200
 
+@app.route('/update_role', methods=['POST'])
+def update_role():
+    data = request.json
+    username = data.get('username')
+    role = data.get('role')
+    result = user_db.update_roles(username, role)
+    return 201 if result else 400
+
+@app.route('/delete_user', methods=['POST'])
+def delete_user():
+    data = request.json
+    username = data.get('username')
+    result = user_db.delete_users(username)
+    return 201 if result else 400
 
     

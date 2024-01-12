@@ -102,22 +102,20 @@ def register():
 
 
 @app.route('/add_film', methods=['GET', 'POST'])
+@login_required()
 def add_film():
     if request.method == "POST":
         # Ajouter le film à la base de données via l'API
-        title = request.form.get("title")
-        director = request.form.get("director")
-        year = request.form.get("year")
-        actors = [actor.strip() for actor in request.form.get('actors').split(',')]
-        genre = request.form.get("genre")
-        description = request.form.get("description")
         film_data = {
-            'title': title,
-            'director': director,
-            'year': year,
-            'actors': actors,
-            'genre': genre,
-            'description': description
+            'username': get_username(),
+            'title': request.form.get("title"),
+            'director': request.form.get("director"),
+            'year': request.form.get("year"),
+            'actors': [actor.strip() for actor in request.form.get('actors').split(',')],
+            'genre': request.form.get("genre"),
+            'description': request.form.get("description"),
+            'production': request.form.get("production"),
+            'duree': request.form.get("duree")
         }
         response = requests.post(f"{api_url}/add_film", json=film_data)
         if response.status_code == 201:
@@ -136,3 +134,31 @@ def add_film():
             user = u
                 
     return render_template('add_film.html', user=user)
+
+
+@app.route('/update_role/<username>/<action>', methods=['POST', 'GET'])
+def update_role(username, action):
+    data = {
+        'username': username,
+        'role': action,
+    }
+    response = requests.post(f"{api_url}/update_role", json=data)
+    if response.status_code == 201:
+        flash('Rôle changé avec succès !', 'success')
+        return redirect(url_for('administrator'))
+    else:
+        flash('Erreur avec le changement de rôle.', 'danger')
+
+    return redirect(url_for('administrator'))
+
+@app.route('/delete_user/<username>', methods=['POST', 'GET'])
+def delete_user(username):
+    data = {'username':username}
+    response = requests.post(f"{api_url}/delete_user", json=data)
+    if response.status_code == 201:
+        flash('Utilisateur supprimé avec succès !', 'success')
+        return redirect(url_for('administrator'))
+    else:
+        flash('Erreur avec la suppression.', 'danger')
+
+    return redirect(url_for('administrator'))

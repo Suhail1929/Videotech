@@ -5,15 +5,17 @@
 
 <h1 class="text-center title">Espace administrateur</h1>
 
-<h4 class="text-center">Liste des utilisateurs</h4>
+<h4 class="text-center text-white">Liste des utilisateurs</h4>
 
 <div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
     <div class="col-md-7 col-lg-8">
-        <table class="table table-striped">
+        <table class="table table-dark">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">username</th>
                     <th scope="col">Role</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,10 +23,22 @@
                 <tr>
                     <td>{{ user_data.username }}</td>
                     <td>{{ user_data.role }}</td>
+                    <td>
+                        {% if user_data.role == 'admin' %}
+                        <a href="{{ url_for('update_role', username=user_data.username, action='user') }}">
+                            <button class="btn btn-secondary" type="button">Downgrade</button>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('update_role', username=user_data.username, action='admin') }}">
+                            <button class="btn btn-success" type="button">Upgrade</button>
+                        </a>
+                        {% endif %}
+                    </td>
+                        <td>
+                        <a href="{{ url_for('delete_user', username=user_data.username) }}">
+                            <button class="btn btn-danger" type="button">Delete</button>
+                        </a>
+                        </td>   
                 </tr>
                 {% endfor %}
             </tbody>
-        </table>
-    </div>
-</div>
-{% endblock %}
