@@ -1,8 +1,15 @@
 from flask import Flask
+import os
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-api_url = "http://10.11.5.145:5100"
+
+ip = "10.11.5.113"
+
+
+api_url = "http://"+ip+":5100"
+
+print("API URL:", api_url)
 
 from routes.api import *
 from routes.web import *

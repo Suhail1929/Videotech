@@ -24,22 +24,30 @@
                     <td>{{ user_data.username }}</td>
                     <td>{{ user_data.role }}</td>
                     <td>
+                    {% if user_data.username != get_username() %}
                         {% if user_data.role == 'admin' %}
                         <a href="{{ url_for('update_role', username=user_data.username, action='user') }}">
                             <button class="btn btn-secondary" type="button">Downgrade</button>
                         </a>
                         {% else %}
+
                         <a href="{{ url_for('update_role', username=user_data.username, action='admin') }}">
                             <button class="btn btn-success" type="button">Upgrade</button>
                         </a>
                         {% endif %}
+                    {% endif %}
                     </td>
-                        <td>
+                    <td>
+                        {% if user_data.username != get_username() %}
                         <a href="{{ url_for('delete_user', username=user_data.username) }}">
                             <button class="btn btn-danger" type="button">Delete</button>
                         </a>
-                        </td>   
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
