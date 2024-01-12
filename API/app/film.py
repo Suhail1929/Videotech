@@ -23,16 +23,20 @@ class FilmDatabase:
             json.dump(films, file, indent=2)
 
     def add_film(self, data):
+        username = data.pop('username', None)
         title = data['title']
         genre = data['genre']
         director = data['director']
         actors = data['actors']
         year = data['year']
         description = data['description']
+        duree = data['duree']
+        production = data['production']
 
         # Load existing films
         films = self.load_films()
-
+        if username not in films:
+            films[username] = []
         # Add the new film to the list
         new_film = {
             'title': title,
@@ -40,10 +44,12 @@ class FilmDatabase:
             'director': director,
             'actors': actors,
             'year': year,
-            'description': description
+            'description': description,
+            'production': production,
+            'duree': duree
         }
 
-        films.append(new_film)
+        films[username].append(new_film)
 
         # Save the updated films
         self.save_films(films)

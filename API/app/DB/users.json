@@ -8,5 +8,10 @@
     "username": "admin",
     "password": "pbkdf2:sha256:600000$rTKOdFv70U8BVb7T$ee6c1f039b36f7271f35cb05c18cfbecc4b0727452a3b99606a123bb7ba9737a",
     "role": "admin"
+  },
+  {
+    "username": "2",
+    "password": "pbkdf2:sha256:600000$jbdceWSFwWdZC49A$c641a2cad3ad0d471b2337aa9d23cbf8be939678a124d3cd9c7d0b8dcfe6f8f4",
+    "role": "user"
   }
 ]

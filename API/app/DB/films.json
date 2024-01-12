@@ -1,44 +1,14 @@
 [
   {
-    "title": "1",
-    "genre": "1",
-    "director": "1",
+    "title": "dz",
+    "genre": "Com\u00e9die",
+    "director": "dzaz",
     "actors": [
-      "1",
-      "1"
+      "dazzd"
     ],
-    "year": "1",
-    "description": "1"
-  },
-  {
-    "title": "52",
-    "genre": "165",
-    "director": "15",
-    "actors": [
-      "s6116"
-    ],
-    "year": "s6661",
-    "description": "848"
-  },
-  {
-    "title": "a",
-    "genre": "da",
-    "director": "dza",
-    "actors": [
-      "Jean michel",
-      "pierre"
-    ],
-    "year": "fzeef",
-    "description": "fezzeffez"
-  },
-  {
-    "title": "Titanic",
-    "genre": "Aventure",
-    "director": "jean mabite",
-    "actors": [
-      "azadsq"
-    ],
-    "year": "2015",
-    "description": "dfgfd dgfd g"
+    "year": "2024-01-24",
+    "description": "dazzad",
+    "production": "dzazd",
+    "duree": "12"
   }
 ]
