@@ -13,6 +13,7 @@
                 Bienvenue sur la vidéothèque CineVerse, vous pouvez consulter la liste des films disponibles ou choisir
                 un film à regarder en effectuant une recherche.
             </p>
+            <a href="{{url_for('list_films')}}" class="main-btn btn">Liste des films</a>
             <div class="row justify-content-center">
                 <form class="form-inline my-2 my-lg-3 col-12 col-lg-6 d-flex justify-content-center">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -20,44 +21,6 @@
                 </form>
             </div>
         </main>
-    </div>
-
-</div>
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="text-center title">Liste des films</h1>
-        </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-            {% for film in api_films %}
-            {% if film.poster_path != null %}
-            <div class="col">
-                <a href="" class="text-decoration-none">
-                    <div class="card shadow-sm link-film">
-                        <span class="badge rounded-pill text-bg-warning"
-                            style="position: absolute;top: 20px;left: 20px;"><i class="bi bi-star-fill"></i> {{
-                            film.vote_average }}
-                        </span>
-                        <img src="https://image.tmdb.org/t/p/w500{{ film.poster_path }}" alt="{{ film.original_title }}"
-                            width="100%" class="card-img-top" alt="...">
-
-                        <div class="card-body">
-                            <h2 class="card-title text-center" style="font-size: 1.5rem;color: #FF3131 !important;">
-                                {{ film.original_title }}
-                            </h2>
-                            <!-- <p>{{film.overview}}</p> -->
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-body-secondary"><i class="bi bi-clock"></i> {{
-                                    film.release_date }}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {% endif %}
-            {% endfor %}
-        </div>
     </div>
 </div>
 {% endblock %}

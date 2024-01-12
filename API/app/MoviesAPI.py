@@ -17,22 +17,32 @@ def get_movies():
     
     url = "https://api.themoviedb.org/3/discover/movie"
     
-    params = { 'api_key': api_key , 'language': 'en-US' , 'page': 10 , 'sort_by': 'popularity.desc' , 'include_adult': 'false' , 'include_video': 'false' }
+    params = { 'api_key': api_key , 'language': 'fr-FR' , 'page': 10 , 'sort_by': 'popularity.desc' , 'include_adult': 'false' , 'include_video': 'false' }
     
     response = requests.get(url, headers=headers, params=params)
     
     # If the request was successful, extract the films from the response
     if response.status_code == 200:
-        films = response.json()["results"]
+        id_films = response.json()["results"]
 
     # Make subsequent requests to get the next 20 films, 40 films, and so on
-    for i in range(2, 100, 20):
+    for i in range(2, 30, 10):
         params["page"] = i
         response = requests.get(url, params=params)
 
         # If the request was successful, append the films to the list
         if response.status_code == 200:
-            films += response.json()["results"]
+            id_films += response.json()["results"]
+            
+    films = []
+            
+    for ids in id_films:
+        url = "https://api.themoviedb.org/3/movie/" + str(ids['id'])
+        params = { 'api_key': api_key , 'language': 'fr-FR' }
+        response = requests.get(url, headers=headers, params=params)
+        if response.status_code == 200:
+            films += [response.json()]
+        
     
     
     return jsonify(films)

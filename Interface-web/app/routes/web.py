@@ -27,15 +27,8 @@ SimpleLogin(app, login_checker=validate_login, messages=messages)
 
 @app.route("/")
 def index():
-    # Faites une requête à votre API pour obtenir la liste des films
-    response = requests.get(f"{api_url}/get_films")
-    films = response.json() if response.status_code == 200 else []
-    # Passez la liste des films au template Jinja
     reponse_user = requests.get(f"{api_url}/get_users")
     users = reponse_user.json() if reponse_user.status_code == 200 else []
-    # La liste des films de IMDB
-    response_api = requests.get(f"{api_url}/get_movies")
-    api_films = response_api.json() if response_api.status_code == 200 else []
     #chercher le nom d'utilisateur
     user = None
     username = get_username()
@@ -43,8 +36,26 @@ def index():
         if u.get('username') == username:
             user = u
             
-    return render_template('index.html', films=films, user=user , api_films=api_films)
+            
+    return render_template('index.html', user=user )
 
+@app.route("/list_films")
+def list_films():
+
+    reponse_user = requests.get(f"{api_url}/get_users")
+    users = reponse_user.json() if reponse_user.status_code == 200 else []
+    #chercher le nom d'utilisateur
+    user = None
+    username = get_username()
+    for u in users:
+        if u.get('username') == username:
+            user = u
+            
+    # La liste des films de IMDB
+    response_api = requests.get(f"{api_url}/get_movies")
+    api_films = response_api.json() if response_api.status_code == 200 else []
+            
+    return render_template('list_films.html', user=user , api_films=api_films)
 
 @app.route("/api", methods=["POST"])
 @login_required(basic=True)
