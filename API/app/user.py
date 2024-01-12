@@ -42,7 +42,7 @@ class UserDatabase:
         users.append(new_users)
         
         with open('DB/users.json', 'w') as file:
-            json.dump(users, file, indent=2)
+            json.dump(users, file)
         
         return True
 

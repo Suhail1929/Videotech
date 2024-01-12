@@ -107,7 +107,7 @@ def add_film():
     if request.method == "POST":
         # Ajouter le film à la base de données via l'API
         film_data = {
-            'username': get_username(),
+            #'username': get_username(),
             'title': request.form.get("title"),
             'director': request.form.get("director"),
             'year': request.form.get("year"),
