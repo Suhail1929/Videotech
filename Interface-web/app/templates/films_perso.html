@@ -20,7 +20,7 @@
                     <th scope="col">Production</th>
                     <th scope="col">Durée</th>
                     <th scope="col">Description</th>
-                    <th></th>
+                    <th scope="col">Suppression</th>
                     <th></th>
                 </tr>
             </thead>
@@ -35,6 +35,11 @@
                     <td>{{ film_data.production }}</td>
                     <td>{{ film_data.duree }}</td>
                     <td>{{ film_data.description }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_film', film=film_data.title) }}">
+                            <button class="btn btn-danger" type="button">Delete</button>
+                        </a>
+                    </td>
                     <td>
                 </tr>
                 {% endfor %}

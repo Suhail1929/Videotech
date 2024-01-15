@@ -177,3 +177,20 @@ def films_perso():
         if u.get('username') == username:
             user = u
     return render_template('films_perso.html', user=user, films=films)
+
+
+@app.route('/delete_film/<film>', methods=['POST', 'GET'])
+@login_required()
+def delete_film(film):
+    data = {
+        'username': get_username(),
+        'film': film,
+    }
+    response = requests.post(f"{api_url}/delete_film",json=data)
+    if response.status_code == 201:
+        flash('Film supprimé avec succès !', 'success')
+        return redirect(url_for('films_perso'))
+    else:
+        flash('Erreur avec la suppression.', 'danger')
+    return redirect(url_for('films_perso'))
+    

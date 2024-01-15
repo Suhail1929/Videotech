@@ -20,7 +20,7 @@ class FilmDatabase:
 
     def save_films(self, films):
         with open('DB/films.json', 'w') as file:
-            json.dump(films, file, indent=2)
+            json.dump(films, file)
 
     def add_film(self, data):
         #username = data.pop('username', None)
@@ -37,6 +37,10 @@ class FilmDatabase:
         films = self.load_films()
         if username not in films:
             films[username] = []
+
+        # for film in films:
+        #     if film['title'] == title:
+        #         return {"error": "Un film avec ce titre existe déjà"}, 400
 
         # Add the new film to the list
         new_film = {
@@ -57,7 +61,15 @@ class FilmDatabase:
     def get_user_film(self,username):
         films = self.load_films()
         return films.get(username, [])
-
+    
+    def delete_film(self, username, film_title):
+        films = self.load_films()
+        films = [user for user in films if user.get('username') != username]
+        user_film = self.get_user_film(username)
+        user_film = [film for film in user_film if film.get('title') != film_title]
+        films.append(user_film)
+        self.save_films(films)
+        return {"result": True}, 201
 
 film_db = FilmDatabase()
 
@@ -73,3 +85,10 @@ def get_films():
     films = film_db.get_user_film(username)
     return jsonify(films), 201
 
+@app.route('/delete_film')
+def delete_film():
+    data = request.json
+    username = data["username"]
+    film = data["film"]
+    result = film_db.delete_film(username,film)
+    return jsonify(result), 201
