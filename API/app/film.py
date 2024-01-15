@@ -15,7 +15,7 @@ class FilmDatabase:
             with open('DB/films.json', 'r') as file:
                 films = json.load(file)
         except FileNotFoundError:
-            films = []
+            films = {}
         return films
 
     def save_films(self, films):
@@ -23,7 +23,8 @@ class FilmDatabase:
             json.dump(films, file, indent=2)
 
     def add_film(self, data):
-        username = data.pop('username', None)
+        #username = data.pop('username', None)
+        username = data['username']
         title = data['title']
         genre = data['genre']
         director = data['director']
@@ -32,12 +33,11 @@ class FilmDatabase:
         description = data['description']
         duree = data['duree']
         production = data['production']
-
         # Load existing films
         films = self.load_films()
-
         if username not in films:
             films[username] = []
+
         # Add the new film to the list
         new_film = {
             'title': title,
@@ -49,12 +49,14 @@ class FilmDatabase:
             'production': production,
             'duree': duree
         }
-
-        films.append(new_film)
         films[username].append(new_film)
-
         # Save the updated films
         self.save_films(films)
+        return {"result": True}, 201
+    
+    def get_user_film(self,username):
+        films = self.load_films()
+        return films.get(username, [])
 
 
 film_db = FilmDatabase()
@@ -62,14 +64,12 @@ film_db = FilmDatabase()
 @app.route('/add_film', methods=['POST'])
 def add_film():
     data = request.json  # Assuming data is sent as a JSON object
-    result, status_code = film_db.add_film(data)
-    return jsonify(result), status_code
-
-
+    result = film_db.add_film(data)
+    return jsonify(result), 201
 
 @app.route('/get_films', methods=['GET'])
 def get_films():
-    # Charger les films existants
-    films = film_db.load_films()
-    return jsonify(films), 200
+    username = request.json
+    films = film_db.get_user_film(username)
+    return jsonify(films), 201
 

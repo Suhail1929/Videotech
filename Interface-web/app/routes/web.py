@@ -107,7 +107,7 @@ def add_film():
     if request.method == "POST":
         # Ajouter le film à la base de données via l'API
         film_data = {
-            #'username': get_username(),
+            'username': get_username(),
             'title': request.form.get("title"),
             'director': request.form.get("director"),
             'year': request.form.get("year"),
@@ -162,3 +162,22 @@ def delete_user(username):
         flash('Erreur avec la suppression.', 'danger')
 
     return redirect(url_for('administrator'))
+
+
+@app.route('/films_perso', methods=['GET'])
+@login_required()
+def films_perso():
+    username = get_username()
+    response = requests.post(f"{api_url}/get_films",username=username)
+    if response.status_code == 201:
+        return redirect(url_for('films_perso'))
+
+    reponse_user = requests.get(f"{api_url}/get_users")
+    users = reponse_user.json() if reponse_user.status_code == 200 else []
+    user = None
+    username = get_username()
+    for u in users:
+        if u.get('username') == username:
+            user = u
+
+    return response

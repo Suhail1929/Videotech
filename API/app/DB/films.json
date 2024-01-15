@@ -1,44 +1,42 @@
-[
-  {
-    "title": "1",
-    "genre": "1",
-    "director": "1",
-    "actors": [
-      "1",
-      "1"
-    ],
-    "year": "1",
-    "description": "1"
-  },
-  {
-    "title": "52",
-    "genre": "165",
-    "director": "15",
-    "actors": [
-      "s6116"
-    ],
-    "year": "s6661",
-    "description": "848"
-  },
-  {
-    "title": "a",
-    "genre": "da",
-    "director": "dza",
-    "actors": [
-      "Jean michel",
-      "pierre"
-    ],
-    "year": "fzeef",
-    "description": "fezzeffez"
-  },
-  {
-    "title": "Titanic",
-    "genre": "Aventure",
-    "director": "jean mabite",
-    "actors": [
-      "azadsq"
-    ],
-    "year": "2015",
-    "description": "dfgfd dgfd g"
-  }
-]
+{
+  "admin": [
+    {
+      "title": "daz",
+      "genre": "Drame",
+      "director": "d",
+      "actors": [
+        "d"
+      ],
+      "year": "0015-05-22",
+      "description": "d",
+      "production": "f",
+      "duree": "12"
+    },
+    {
+      "title": "d",
+      "genre": "Drame",
+      "director": "d",
+      "actors": [
+        "45"
+      ],
+      "year": "1565-11-01",
+      "description": "54",
+      "production": "54",
+      "duree": "4546"
+    }
+  ],
+  "1": [
+    {
+      "title": "dza",
+      "genre": "Drame",
+      "director": "dzad",
+      "actors": [
+        "151"
+      ],
+      "year": "2024-01-22",
+      "description": "dzoka",
+      "production": "12",
+      "duree": "212"
+    }
+  ]
+}
