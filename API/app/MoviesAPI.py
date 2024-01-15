@@ -26,7 +26,7 @@ def get_movies():
         id_films = response.json()["results"]
 
     # Make subsequent requests to get the next 20 films, 40 films, and so on
-    for i in range(2, 20, 10):
+    for i in range(2, 30, 10):
         params["page"] = i
         response = requests.get(url, params=params)
 
