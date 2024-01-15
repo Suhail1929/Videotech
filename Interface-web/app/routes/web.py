@@ -168,10 +168,9 @@ def delete_user(username):
 @login_required()
 def films_perso():
     username = get_username()
-    data = {'username':username}
-    response = requests.post(f"{api_url}/get_films",username=data)
-    films = response.json() if reponse_user.status_code == 201 else []
+    response = requests.post(f"{api_url}/get_films",json=username)
     reponse_user = requests.get(f"{api_url}/get_users")
+    films = response.json() if response.status_code == 201 else []
     users = reponse_user.json() if reponse_user.status_code == 200 else []
     user = None
     for u in users:
