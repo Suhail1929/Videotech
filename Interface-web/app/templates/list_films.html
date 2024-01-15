@@ -3,14 +3,19 @@
 
 {% block page_body %}
 <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="form-inline my-2 my-lg-3 col-12 col-lg-6 d-flex justify-content-center">
+            <input class="form-control mr-sm-2" id="searchInput" type="search" placeholder="Search" aria-label="Search">
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <h1 class="text-center title">Liste des films</h1>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" id="searchResults">
             {% for film in api_films %}
             {% if film.poster_path != null %}
-            <div class="col">
+            <div class="col" id="result{{ film.id }}">
                 <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film.id }}" class="text-decoration-none"
                     style="cursor: pointer;">
                     <div class="card shadow-sm link-film">
@@ -22,7 +27,8 @@
                             width="100%" class="card-img-top" alt="...">
 
                         <div class="card-body">
-                            <h2 class="card-title text-center" style="font-size: 1.5rem;color: #FF3131 !important;">
+                            <h2 class="card-title text-center" style="font-size: 1.5rem;color: #FF3131 !important;"
+                                id="title{{ film.id }}">
                                 {{ film.original_title }}
                             </h2>
                         </div>
@@ -33,76 +39,79 @@
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content bg-dark text-white">
-                            <div class="modal-header " data-bs-theme="dark">
+                            <div class="modal-header " data-bs-theme="dark" style="border: none;">
                                 <h1 class="modal-title title" id="exampleModalLabel">{{ film.original_title }}</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="container modal-body">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="https://image.tmdb.org/t/p/w500{{ film.poster_path }}"
-                                            alt="{{ film.original_title }}" width="100%" class="card-img-top p-3 "
-                                            style="border-radius: 30px;">
+                            <div class="image-bg"
+                                style="background-image: url('https://image.tmdb.org/t/p/w500{{ film.backdrop_path }}');">
+                                <div class="container modal-body image-bg-container">
+                                    <div class="row ">
+                                        <div class="col-4">
+                                            <img src="https://image.tmdb.org/t/p/w500{{ film.poster_path }}"
+                                                alt="{{ film.original_title }}" width="100%" class="card-img-top p-3 "
+                                                style="border-radius: 30px;">
+                                        </div>
+                                        <div class="col-8 mt-4">
+                                            <ul class="list-unstyled">
+                                                <li><i class="bi bi-circle-fill mx-2"></i>
+                                                    <strong>Titre original:</strong> {{ film.original_title }}
+                                                </li>
+                                                <li><i class="bi bi-circle-fill mx-2"></i>
+                                                    <strong>Titre français:</strong>
+                                                    {{ film.title }}
+                                                </li>
+                                                <li><i class="bi bi-translate mx-2"></i>
+                                                    <strong>Langue d'origine:</strong>
+                                                    {{
+                                                    film.original_language }}
+                                                </li>
+                                                <li><i class="bi bi-calendar-event mx-2"></i>
+                                                    <strong>Date de
+                                                        sortie:</strong> {{ film.release_date }}
+                                                </li>
+                                                <li><i class="bi bi-stars mx-2"></i>
+                                                    <strong>Popularité:</strong> {{
+                                                    film.popularity }}
+                                                </li>
+                                                <li><i class="bi bi-star-fill mx-2"></i>
+                                                    <strong>Vote:</strong> {{
+                                                    film.vote_average }}
+                                                </li>
+                                                {% if film.budget != 0 and film.revenue != 0 %}
+                                                <li><i class="bi bi-cash mx-2"></i>
+                                                    <strong>Budget:</strong> {{ "{:,}".format(film.budget) }} $
+                                                </li>
+                                                <li><i class="bi bi-cash-coin mx-2"></i>
+                                                    <strong>Revenue:</strong> {{ "{:,}".format(film.revenue) }} $
+                                                </li>
+                                                {% endif %}
+                                                <li><i class="bi bi-clock-fill mx-2"></i>
+                                                    <strong>durée:</strong> {{
+                                                    film.runtime
+                                                    }} min
+                                                </li>
+                                                <li><i class="bi bi-disc mx-2"></i>
+                                                    <strong>Genre:</strong>
+                                                    {% for genre in film.genres %}
+                                                    {{ genre.name }},
+                                                    {% endfor %}
+                                                </li>
+                                                <li><i class="bi bi-camera-reels mx-2"></i>
+                                                    <strong>Production:</strong>
+                                                    {% for production in film.production_companies %}
+                                                    {{ production.name }},
+                                                    {% endfor %}
+                                                </li>
+                                            </ul>
+                                            {{ film.overview }}
+                                        </div>
                                     </div>
-                                    <div class="col-8 mt-4">
-                                        <ul class="list-unstyled">
-                                            <li><i class="bi bi-circle-fill mx-2"></i>
-                                                <strong>Titre original:</strong> {{ film.original_title }}
-                                            </li>
-                                            <li><i class="bi bi-circle-fill mx-2"></i>
-                                                <strong>Titre français:</strong>
-                                                {{ film.title }}
-                                            </li>
-                                            <li><i class="bi bi-translate mx-2"></i>
-                                                <strong>Langue d'origine:</strong>
-                                                {{
-                                                film.original_language }}
-                                            </li>
-                                            <li><i class="bi bi-calendar-event mx-2"></i>
-                                                <strong>Date de
-                                                    sortie:</strong> {{ film.release_date }}
-                                            </li>
-                                            <li><i class="bi bi-stars mx-2"></i>
-                                                <strong>Popularité:</strong> {{
-                                                film.popularity }}
-                                            </li>
-                                            <li><i class="bi bi-star-fill mx-2"></i>
-                                                <strong>Vote:</strong> {{
-                                                film.vote_average }}
-                                            </li>
-                                            {% if film.budget != 0 and film.revenue != 0 %}
-                                            <li><i class="bi bi-cash mx-2"></i>
-                                                <strong>Budget:</strong> {{ "{:,}".format(film.budget) }} $
-                                            </li>
-                                            <li><i class="bi bi-cash-coin mx-2"></i>
-                                                <strong>Revenue:</strong> {{ "{:,}".format(film.revenue) }} $
-                                            </li>
-                                            {% endif %}
-                                            <li><i class="bi bi-clock-fill mx-2"></i>
-                                                <strong>durée:</strong> {{
-                                                film.runtime
-                                                }} min
-                                            </li>
-                                            <li><i class="bi bi-disc mx-2"></i>
-                                                <strong>Genre:</strong>
-                                                {% for genre in film.genres %}
-                                                {{ genre.name }},
-                                                {% endfor %}
-                                            </li>
-                                            <li><i class="bi bi-camera-reels mx-2"></i>
-                                                <strong>Production:</strong>
-                                                {% for production in film.production_companies %}
-                                                {{ production.name }},
-                                                {% endfor %}
-                                            </li>
-                                        </ul>
-                                        {{ film.overview }}
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div class="modal-footer">
+                                </div>
+                            </div> 
+                            <div class="modal-footer" style="border: none;">
                                 <button type="button" class="btn main-btn" data-bs-dismiss="modal">Retour</button>
                             </div>
                         </div>
@@ -114,4 +123,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var searchInput = document.getElementById('searchInput');
+        var searchResults = document.getElementById('searchResults');
+
+        searchInput.addEventListener('input', function () {
+            var searchTerm = searchInput.value.trim();
+
+            // Sélectionnez tous les éléments de résultat
+            var resultItems = searchResults.children;
+
+            for (var i = 0; i < resultItems.length; i++) {
+                var resultItem = resultItems[i];
+                var filmId = resultItem.id.replace('result', ''); // Obtenez l'ID du film
+
+                var title = document.getElementById('title' + filmId).innerText.toLowerCase();
+
+                // Vérifiez si le titre du film contient le terme de recherche
+                if (title.includes(searchTerm.toLowerCase())) {
+                    resultItem.style.display = '';  // Affiche l'élément
+                } else {
+                    resultItem.style.display = 'none';  // Masque l'élément
+                }
+            }
+        });
+    });
+</script>
+
 {% endblock %}

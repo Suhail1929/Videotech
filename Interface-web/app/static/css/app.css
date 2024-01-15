@@ -72,6 +72,11 @@
   background-color: #dadce7;
 }
 
+.link-film:hover {
+  width: 103%;
+  height: 102%;
+}
+
 .link-film::before {
   content: "";
   position: absolute;
@@ -88,4 +93,24 @@
 .link-film:hover::before {
   background: rgba(0, 0, 0, 0.5);
   /* Couleur noire transparente avec une opacité de 0.5 lorsqu'il est survolé */
+}
+
+.image-bg {
+  position: relative;
+  background-image: url('chemin/vers/image.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.image-bg-container {
+  background-color: rgb(14 17 20 / 0.6);
+
+  backdrop-filter: blur(5px);
+
+  border: 10px solid transparent;
+  /* Taille de la bordure */
+  border-image: linear-gradient(to bottom, #000, transparent);
+  /* Dégradé pour la bordure floue */
+  border-image-slice: 1;
+  /* Permet d'appliquer le dégradé à toute la bordure */
 }

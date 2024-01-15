@@ -1,64 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}S'inscrire{% endblock %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{% block title %} Awesome {% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet" type="text/css">
-  <link href="{{ url_for('static', filename='images/icon.png') }}" rel="icon">
-</head>
+{% block page_body %}
 
-<body>
-
-<div class="py-5 text-center">
-    <i class="bi bi-person-add" style="font-size: 4rem; color: #FF3131;"></i>
-    <h2>Création de compte</h2>
-    <div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
-        <div class="col-md-7 col-lg-3">
-<form action="{{ url_for('register') }}" method="post">
-    <div class="form-group">
-        {{ csrf_token }}
-        <label for="username">Nom d'utilisateur:</label>
-        <input type="text" name="username" class="form-control" required>
-        <br>
-        <label for="password">Mot de passe:</label>
-        <input type="password" name="password" class="form-control" required>
-        <br>
-        {% if next %}<input type="hidden" name="next" value="{{next}}">{% endif %}
-        <div class="form-group">
-            <label for="confirm_password">Confirmer le mot de passe:</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+<div class="row">
+  <div class="col-md-8 d-none d-md-block mt-5 p-3">
+    <img src="{{ url_for('static', filename='images/undraw_sign_up_n6im.svg')}}"
+      class="img-fluid d-none d-md-block ms-5" alt="sign-in">
+  </div>
+  <div class="col-md-4">
+    <main class="form-signin w-100 m-auto mt-5 p-3">
+      <form action="{{ url_for('register') }}" method="post">
+        <div class="text-center mb-4">
+          <img class="mb-4" src="{{ url_for('static', filename='images/icon.png') }}" height="60" alt="logo">
+          <h1 class="h3 mb-3 fw-normal text-light">Créer un compte</h1>
         </div>
-    </div>
-    <input type="submit" value="Créer un compte" class="btn main-btn mt-3">
-</form>
+        {{ csrf_token }}
+        <div class="form-floating">
+          <input type="text" name="username" class="form-control" required>
+          <label for="username">Nom d'utilisateur</label>
+        </div>
+        &nbsp;
+        <div class="form-floating">
+          <input type="password" name="password" class="form-control" required>
+          <label for="password">Mot de passe</label>
+        </div>
+        &nbsp;
+        {% if next %}<input type="hidden" name="next" value="{{next}}">{% endif %}
+        <div class="form-floating">
+          <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+          <label for="confirm_password">Confirmer le mot de passe</label>
+        </div>
+        <input type="submit" value="Créer un compte" class="btn main-btn mt-3">
+      </form>
+    </main>
+  </div>
 </div>
-</div>
-</div>
-<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top bg-light">
-    <div class="col-md-6 d-flex align-items-center">
-      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-        <img src="{{ url_for('static', filename='images/icon.png') }}" alt="logo" width="50" height="50" class="mx-3">
-      </a>
-      <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2023 Univesité de Reims Champagne-Ardenne</span>
-    </div>
 
-    <div class="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <span class="me-3">Developpé par: Hugo Bertrand & Souhail Mtarfi</span>
-    </div>
-  </footer>
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-
-</body>
-
-</html>
+{% endblock %}m!p https://open.spotify.com/intl-fr/track/2SdQaNhzwfzEhutmytuv18?si=30de1bf781914622
