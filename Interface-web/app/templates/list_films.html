@@ -2,15 +2,16 @@
 {% block title %}Liste des films{% endblock %}
 
 {% block page_body %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="form-inline my-2 my-lg-3 col-12 col-lg-6 d-flex justify-content-center">
-            <input class="form-control mr-sm-2" id="searchInput" type="search" placeholder="Search" aria-label="Search">
-        </div>
-    </div>
+<div class="container">
     <div class="row">
         <div class="col-12">
             <h1 class="text-center title">Liste des films</h1>
+            <div class="row justify-content-center">
+                <div class="form-inline my-2 my-lg-3 col-12 col-lg-6 d-flex justify-content-center">
+                    <input class="form-control mr-sm-2" id="searchInput" type="search" placeholder="Search"
+                        aria-label="Search">
+                </div>
+            </div>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" id="searchResults">
             {% for film in api_films %}
@@ -18,7 +19,8 @@
             <div class="col" id="result{{ film.id }}">
                 <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film.id }}" class="text-decoration-none"
                     style="cursor: pointer;">
-                    <div class="card shadow-sm link-film">
+                    <div class="card shadow-sm link-film image-bg"
+                        style="background-image: url('https://image.tmdb.org/t/p/w500{{ film.backdrop_path }}');">
                         <span class="badge rounded-pill text-bg-warning"
                             style="position: absolute;top: 20px;left: 20px;"><i class="bi bi-star-fill"></i> {{
                             film.vote_average }}
@@ -26,8 +28,8 @@
                         <img src="https://image.tmdb.org/t/p/w500{{ film.poster_path }}" alt="{{ film.original_title }}"
                             width="100%" class="card-img-top" alt="...">
 
-                        <div class="card-body">
-                            <h2 class="card-title text-center" style="font-size: 1.5rem;color: #FF3131 !important;"
+                        <div class="card-body image-bg-container">
+                            <h2 class="card-title text-center" style="font-size: 2rem;color: #FF3131 !important;"
                                 id="title{{ film.id }}">
                                 {{ film.original_title }}
                             </h2>
@@ -110,7 +112,7 @@
                                     </div>
 
                                 </div>
-                            </div> 
+                            </div>
                             <div class="modal-footer" style="border: none;">
                                 <button type="button" class="btn main-btn" data-bs-dismiss="modal">Retour</button>
                             </div>
