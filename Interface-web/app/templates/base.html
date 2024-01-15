@@ -34,6 +34,9 @@
           {% endif %}
           {% if is_logged_in() %}
           <li class="nav-item">
+            <a class="nav-link px-2 text-secondary" href="{{url_for('films_perso')}}">Liste films personnels</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link px-2 text-secondary" href="{{url_for('add_film')}}">Ajouter un film</a>
           </li>
           {% endif %}

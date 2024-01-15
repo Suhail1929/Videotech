@@ -67,7 +67,7 @@ def add_film():
     result = film_db.add_film(data)
     return jsonify(result), 201
 
-@app.route('/get_films', methods=['GET'])
+@app.route('/get_films', methods=['POST'])
 def get_films():
     username = request.json
     films = film_db.get_user_film(username)
