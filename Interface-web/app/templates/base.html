@@ -12,10 +12,10 @@
   <link href="{{ url_for('static', filename='images/icon.png') }}" rel="icon">
 </head>
 
-<body class="bg-dark">
+<body class="bg-dark overflow-hidden">
   {% block header %}
 
-  <header class="p-3 text-bg-dark">
+  <header class="p-3 header-area header-sticky">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -58,38 +58,32 @@
 
   {% endblock %}
 
-  <!-- <div class="jumbotron p-4 p-md-5 text-white rounded text-secondary">
-    <div class="container">
-      {% block messages %}
-      {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-      <ul class="flashes alert">
-        {% for category, message in messages %}
-        <li class="flashes alert alert-{{category}}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      {% if request.path == url_for('simplelogin.login') %}
-      <ul class="flashes alert alert-primary">
-        <li>Entrez votre nom d'utilisateur et votre mot de passe ci-dessous</li>
-      </ul>
-      {% endif %}
-      {% endif %}
-      {% endwith %}
+ 
+  <div class="col-12 main-banner ">
+    <video autoplay muted loop id="bg-video">
+      <source src="{{ url_for('static', filename='images/bg-video.mp4') }}" type="video/mp4" />
+    </video>
+    <div class="video-overlay">
+      <br>
+      <br>
+      <br>
+      <div class="col-12 mt-5 overflow-auto" style="height: 80vh;">
+      {% block page_body %}
+
+
       {% endblock %}
     </div>
-  </div> -->
-  {% block page_body %}
-  <div class="container">
-
-
+    </div>
   </div>
-  {% endblock %}
+
+  <br>
+  <br>
+  <br>
 
   {% block footer %}
 
 
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top text-bg-dark">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 footer-area footer-sticky">
     <div class="col-md-6 d-flex align-items-center">
       <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
         <img src="{{ url_for('static', filename='images/icon.png') }}" alt="logo" width="50" height="50" class="mx-3">
@@ -97,7 +91,7 @@
       <span class="mb-3 mb-md-0 text-white">&copy; 2023 Université de Reims Champagne-Ardenne</span>
     </div>
 
-    <div class="nav col-md-4 justify-content-end list-unstyled d-flex">
+    <div class="nav col-md-4 justify-content-end list-unstyled d-flex text-white">
       <span class="me-3">Developpé par: Hugo Bertrand & Souhail Mtarfi</span>
     </div>
   </footer>
