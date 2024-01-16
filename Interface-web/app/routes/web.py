@@ -39,7 +39,7 @@ def index():
             
     return render_template('index.html', user=user )
 
-@app.route("/list_films")
+@app.route("/list_films", methods=['GET', 'POST'])
 def list_films():
 
     reponse_user = requests.get(f"{api_url}/get_users")
@@ -51,11 +51,42 @@ def list_films():
         if u.get('username') == username:
             user = u
             
-    # La liste des films de IMDB
-    response_api = requests.get(f"{api_url}/get_movies")
-    api_films = response_api.json() if response_api.status_code == 200 else []
-            
-    return render_template('list_films.html', user=user , api_films=api_films)
+    list_genre =requests.get(f"{api_url}/get_genre")
+    genres = list_genre.json() if list_genre.status_code == 200 else []
+    
+    list_language =requests.get(f"{api_url}/get_languages")
+    languages = list_language.json() if list_language.status_code == 200 else []
+    
+    title = request.args.get('title')
+    genre = request.args.get('genre')
+    year = request.args.get('year')
+    language = request.args.get('language')
+    vote = request.args.get('vote')
+    
+    if title and title != '':
+        response_api = requests.get(f"{api_url}/get_movies_by_title/{title}")
+        api_films = response_api.json() if response_api.status_code == 200 else []
+        return render_template('list_films.html', user=user , api_films=api_films , genres=genres , languages=languages)
+    elif genre and genre != '':
+        response_api = requests.get(f"{api_url}/get_movies_by_genre/{genre}")
+        api_films = response_api.json() if response_api.status_code == 200 else []
+        return render_template('list_films.html', user=user , api_films=api_films , genres=genres , languages=languages)
+    elif year and year != '':
+        response_api = requests.get(f"{api_url}/get_movies_by_year/{year}")
+        api_films = response_api.json() if response_api.status_code == 200 else []
+        return render_template('list_films.html', user=user , api_films=api_films , genres=genres , languages=languages)
+    elif language and language != '':
+        response_api = requests.get(f"{api_url}/get_movies_by_language/{language}")
+        api_films = response_api.json() if response_api.status_code == 200 else []
+        return render_template('list_films.html', user=user , api_films=api_films , genres=genres , languages=languages)
+    elif vote and vote != '':
+        response_api = requests.get(f"{api_url}/get_movies_by_vote_average/{vote}")
+        api_films = response_api.json() if response_api.status_code == 200 else []
+        return render_template('list_films.html', user=user , api_films=api_films , genres=genres , languages=languages)
+    else:
+        response_api = requests.get(f"{api_url}/get_movies")
+        api_films = response_api.json() if response_api.status_code == 200 else []
+        return render_template('list_films.html', user=user , api_films=api_films , genres=genres , languages=languages)
 
 @app.route("/api", methods=["POST"])
 @login_required(basic=True)
