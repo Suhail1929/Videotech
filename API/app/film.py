@@ -58,18 +58,26 @@ class FilmDatabase:
         self.save_films(films)
         return {"result": True}, 201
     
+    def get_films(self):
+        return self.load_films()
+    
     def get_user_film(self,username):
         films = self.load_films()
         return films.get(username, [])
     
     def delete_film(self, username, film_title):
         films = self.load_films()
-        films = [user for user in films if user.get('username') != username]
-        user_film = self.get_user_film(username)
-        user_film = [film for film in user_film if film.get('title') != film_title]
-        films.append(user_film)
-        self.save_films(films)
-        return {"result": True}, 201
+        if username in films:
+            x=0
+            for film in films[username]:
+                if films[username][x]['title'] == film_title:
+                    del films[username][x]
+                    if films[username] == []:
+                        del films[username]
+                    self.save_films(films)
+                    return {"result": True}
+                x+=1
+        return {"result": False}
 
 film_db = FilmDatabase()
 
@@ -79,16 +87,21 @@ def add_film():
     result = film_db.add_film(data)
     return jsonify(result), 201
 
-@app.route('/get_films', methods=['POST'])
-def get_films():
+@app.route('/get_films_user', methods=['POST'])
+def get_films_user():
     username = request.json
     films = film_db.get_user_film(username)
     return jsonify(films), 201
 
-@app.route('/delete_film')
+@app.route('/delete_film', methods=['POST'])
 def delete_film():
     data = request.json
     username = data["username"]
     film = data["film"]
-    result = film_db.delete_film(username,film)
+    result = film_db.delete_film(username=username,film_title=film)
     return jsonify(result), 201
+
+@app.route('/get_films', methods=['POST'])
+def get_films():
+    films = film_db.get_films()
+    return jsonify(films), 201

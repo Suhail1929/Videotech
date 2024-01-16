@@ -151,7 +151,7 @@ def add_film():
         response = requests.post(f"{api_url}/add_film", json=film_data)
         if response.status_code == 201:
             flash('Film ajouté avec succès !', 'success')
-            return redirect(url_for('add_film'))
+            return redirect(url_for('films_perso'))
         else:
             flash('Erreur lors de l\'ajout du film. Veuillez réessayer.', 'danger')
         
@@ -199,7 +199,7 @@ def delete_user(username):
 @login_required()
 def films_perso():
     username = get_username()
-    response = requests.post(f"{api_url}/get_films",json=username)
+    response = requests.post(f"{api_url}/get_films_user",json=username)
     reponse_user = requests.get(f"{api_url}/get_users")
     films = response.json() if response.status_code == 201 else []
     users = reponse_user.json() if reponse_user.status_code == 200 else []
@@ -224,4 +224,18 @@ def delete_film(film):
     else:
         flash('Erreur avec la suppression.', 'danger')
     return redirect(url_for('films_perso'))
+
+@app.route('/films_commu', methods=['POST', 'GET'])
+@login_required()
+def films_commu():
+    response = requests.post(f"{api_url}/get_films")
+    reponse_user = requests.get(f"{api_url}/get_users")
+    films = response.json() if response.status_code == 201 else []
+    users = reponse_user.json() if reponse_user.status_code == 200 else []
+    user = None
+    for u in users:
+        if u.get('username') == get_username():
+            user = u
+    return render_template('films_commu.html', user=user, films=films)
+    
     

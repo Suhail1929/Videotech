@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "admin": [
     {
@@ -76,3 +77,6 @@
     }
   ]
 }
+=======
+{"admin": [{"title": "dzdadaz", "genre": "Drame", "director": "dzazdz", "actors": ["dzadzdpz"], "year": "0665-12-12", "description": "pddz", "production": "dzpoazdo", "duree": "13"}, {"title": "ddd", "genre": "Drame", "director": "12321", "actors": ["12312"], "year": "0021-03-12", "description": "12312", "production": "211", "duree": "12"}]}
+>>>>>>> 1078d8968f5bcf332ca2e24f75e76ea645b13828
