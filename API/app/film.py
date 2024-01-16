@@ -72,6 +72,8 @@ class FilmDatabase:
             for film in films[username]:
                 if films[username][x]['title'] == film_title:
                     del films[username][x]
+                    if films[username] == []:
+                        del films[username]
                     self.save_films(films)
                     return {"result": True}
                 x+=1

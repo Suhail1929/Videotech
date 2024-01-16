@@ -58,8 +58,15 @@ class UserDatabase:
         if users == new_users:
             return False
         with open("DB/users.json", "w") as json_file:
-            json.dump(new_users, json_file) 
-            return True
+            json.dump(new_users, json_file)
+             
+        with open("DB/films.json", "r") as json_file2:
+            data = json.load(json_file2)
+        del data[username]    
+        with open("DB/films.json", "w") as json_file2:
+            json.dump(data, json_file2) 
+        
+        return True
         
     def update_roles(self, username, role):
             users = self.load_users()

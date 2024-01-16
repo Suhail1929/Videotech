@@ -120,7 +120,7 @@ def add_film():
         response = requests.post(f"{api_url}/add_film", json=film_data)
         if response.status_code == 201:
             flash('Film ajouté avec succès !', 'success')
-            return redirect(url_for('add_film'))
+            return redirect(url_for('films_perso'))
         else:
             flash('Erreur lors de l\'ajout du film. Veuillez réessayer.', 'danger')
         
