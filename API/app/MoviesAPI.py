@@ -1,9 +1,6 @@
 from app import app
-import json
 import requests
-from flask import Flask, request, jsonify, redirect, url_for
-from flask_restful import Api, Resource
-import requests
+from flask import jsonify
 
 api_key = '3e7cfcbbde83ea4fac4e860b482ead1c'
 

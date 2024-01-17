@@ -1,15 +1,13 @@
 from app import app
 import json
-import requests
-from flask import Flask, request, jsonify, redirect, url_for
-from flask_restful import Api, Resource
-from flask_simplelogin import Message, SimpleLogin, login_required
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask import request, jsonify
 
+# Classe concernant toutes les fonctions liées aux films
 class FilmDatabase:
     def __init__(self):
         pass
-
+    
+    # Fonction pour l'ouverture du fichier film.json
     def load_films(self):
         try:
             with open('DB/films.json', 'r') as file:
@@ -18,12 +16,14 @@ class FilmDatabase:
             films = {}
         return films
 
+    # Fonction pour sauvegarder les modifications de films.json
     def save_films(self, films):
         with open('DB/films.json', 'w') as file:
             json.dump(films, file)
 
+
+    # Permet d'ajouter un film en fonction de l'utilisateur qui l'a créé
     def add_film(self, data):
-        #username = data.pop('username', None)
         username = data['username']
         title = data['title']
         genre = data['genre']
@@ -33,16 +33,11 @@ class FilmDatabase:
         description = data['description']
         duree = data['duree']
         production = data['production']
-        # Load existing films
+
         films = self.load_films()
         if username not in films:
             films[username] = []
 
-        # for film in films:
-        #     if film['title'] == title:
-        #         return {"error": "Un film avec ce titre existe déjà"}, 400
-
-        # Add the new film to the list
         new_film = {
             'title': title,
             'genre': genre,
@@ -53,18 +48,22 @@ class FilmDatabase:
             'production': production,
             'duree': duree
         }
+
         films[username].append(new_film)
-        # Save the updated films
         self.save_films(films)
         return {"result": True}, 201
     
+    # Renvoie tous les films présents dans la base de donnée ainsi que le nom de leur créateur
     def get_films(self):
         return self.load_films()
     
+    # Renvoie les films d'un utilisateur en particulier
     def get_user_film(self,username):
         films = self.load_films()
         return films.get(username, [])
     
+    # Cette fonction supprime le film choisi par l'utilisateur
+    # Si l'utilisateur n'a plus aucun film, son nom est supprimé également du fichier film.json
     def delete_film(self, username, film_title):
         films = self.load_films()
         if username in films:
@@ -79,20 +78,24 @@ class FilmDatabase:
                 x+=1
         return {"result": False}
 
+# Instancier la classe FilmDatabase
 film_db = FilmDatabase()
 
+# Route pour l'ajout d'un film
 @app.route('/add_film', methods=['POST'])
 def add_film():
-    data = request.json  # Assuming data is sent as a JSON object
+    data = request.json
     result = film_db.add_film(data)
     return jsonify(result), 201
 
+# Route pour la récupération des films d'un utilisateur
 @app.route('/get_films_user', methods=['POST'])
 def get_films_user():
     username = request.json
     films = film_db.get_user_film(username)
     return jsonify(films), 201
 
+# Route pour la suppression d'un film d'un utilisateur
 @app.route('/delete_film', methods=['POST'])
 def delete_film():
     data = request.json
@@ -101,6 +104,7 @@ def delete_film():
     result = film_db.delete_film(username=username,film_title=film)
     return jsonify(result), 201
 
+# Route pour la récupération de tous les films créés par les utilisateurs
 @app.route('/get_films', methods=['POST'])
 def get_films():
     films = film_db.get_films()
