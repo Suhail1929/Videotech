@@ -3,11 +3,7 @@
 
 {% block page_body %}
 
-<div class="row">
-  <div class="col-md-8 d-none d-md-block mt-5 p-3">
-    <img src="{{ url_for('static', filename='images/undraw_sign_up_n6im.svg')}}"
-      class="img-fluid d-none d-md-block ms-5" alt="sign-in">
-  </div>
+<div class="g-6 d-flex justify-content-center align-items-center overflow-hidden">
   <div class="col-md-4">
     <main class="form-signin w-100 m-auto mt-5 p-3">
       <form action="{{ url_for('register') }}" method="post">
