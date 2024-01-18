@@ -17,12 +17,15 @@ def validate_login(user):
     return False
 
 # Fonction permettant de récupérer le rôle de l'utilisateur pour contrôler l'accès aux pages
-def get_role(username):
-    username = {'username': username}
+def get_role():
+    if get_username == None:
+        return 'visiteur'
+    username = {'username': get_username()}
     response = requests.post(f"{api_url}/get_role", json=username)
     if response.status_code == 201:
         role = response.json()
         return role
+
 
 # Initialisation de Flask-simple login et personnalisation des différents messages
 messages = {
@@ -37,7 +40,7 @@ SimpleLogin(app, login_checker=validate_login, messages=messages)
 # Route de la page d'acceuil
 @app.route("/")
 def index():
-    role = get_role(get_username())         
+    role = get_role()         
     return render_template('index.html',role=role)
 
 # Route pour la création d'un compte
@@ -68,7 +71,7 @@ def register():
 @login_required()
 def list_films():
 
-    role = get_role(get_username())     
+    role = get_role()     
             
     list_genre =requests.get(f"{api_url}/get_genre")
     genres = list_genre.json() if list_genre.status_code == 200 else []
@@ -113,7 +116,7 @@ def list_films():
 def films_commu():
     response = requests.post(f"{api_url}/get_films")
     films = response.json() if response.status_code == 201 else []
-    role = get_role(get_username())     
+    role = get_role()     
     return render_template('films_commu.html', role=role, films=films)
 
 # Route pour afficher et pouvoir supprimer tous les films créés par l'utilisateur actuel
@@ -122,7 +125,7 @@ def films_perso():
     username = get_username()
     response = requests.post(f"{api_url}/get_films_user",json=username)
     films = response.json() if response.status_code == 201 else []
-    role = get_role(username)     
+    role = get_role()     
     return render_template('films_perso.html', role=role, films=films)
 
 # Route permettant à un utilisateur d'ajouter un film
@@ -161,7 +164,7 @@ def add_film():
         else:
             flash('Erreur lors de l\'ajout du film. Veuillez réessayer.', 'danger')
         
-    role = get_role(get_username())   
+    role = get_role()   
 
     return render_template('add_film.html', role=role)
 
@@ -186,8 +189,8 @@ def delete_film(film):
 @login_required()
 def administrator():
     response = requests.get(f"{api_url}/get_users")
-    users = response.json() if response.status_code == 200 else []
-    role = get_role(get_username())     
+    users = response.json() if response.status_code == 201 else []
+    role = get_role()     
     if role != 'admin':
         return redirect(url_for('index'))
     
