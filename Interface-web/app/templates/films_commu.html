@@ -19,7 +19,7 @@
                             class="bi bi-person-circle"></i>
                         <td>{{ user }}</td>
                     </span>
-                    <img src="" alt="{{ film_data.title }}" width="100%" class="card-img-top" alt="..."
+                    <img src="{{ url_for('static', filename='posters/'~film_data.poster) }}" alt="{{ film_data.title }}" width="100%" class="card-img-top" alt="..."
                         style="min-height: 250px;">
 
                     <div class="card-body image-bg-container">
@@ -43,7 +43,7 @@
                             <div class="container modal-body image-bg-container">
                                 <div class="row ">
                                     <div class="col-4">
-                                        <img src="" alt="{{ film_data.title }}" width="100%" class="card-img-top p-3 "
+                                        <img src="{{ url_for('static', filename='posters/'~film_data.poster) }}" alt="{{ film_data.title }}" width="100%" class="card-img-top p-3 "
                                             style="border-radius: 30px;">
                                     </div>
                                     <div class="col-8 mt-4">
