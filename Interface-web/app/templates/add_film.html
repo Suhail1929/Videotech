@@ -4,14 +4,15 @@
 
 {% block page_body %}
 
-<div class="py-5 text-center">
+<div class="py-5 text-center text-white">
     <i class="bi bi-film" style="font-size: 4rem; color: #FF3131;"></i><i class="bi bi-plus-circle-fill"
         style="font-size: 2rem; color: #FF3131;"></i>
     <h2>Ajouter un film</h2>
 </div>
 <div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
     <div class="col-md-7 col-lg-8">
-        <form class="needs-validation" method="post" action="{{ url_for('add_film') }}">
+        <form class="needs-validation" method="post" action="{{ url_for('add_film') }}" enctype="multipart/form-data">
+            {{ csrf_token }}
             <div class="row g-3 text-white">
                 <div class="col-md-6">
                     <label class="form-label" for="title">Titre*</label>
@@ -54,6 +55,12 @@
                     <label class="form-label" for="actors">Acteurs (séparés par des virgules)*</label>
                     <input type="text" name="actors" class="form-control" required>
                 </div>
+
+                <div class="col-md-12">
+                    <label class="form-label" for="actors">Poster *</label>
+                    <input type="file" name="poster" class="form-control" required>
+                </div>
+
                 <div class="col-md-12">
                     <label class="form-label" for="description">Description*</label>
                     <textarea class="form-control" name="description" rows="4" cols="75"

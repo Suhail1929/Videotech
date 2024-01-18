@@ -2,7 +2,11 @@ from app import app, api_url
 import requests
 from flask import jsonify, render_template, request, flash, redirect, url_for
 from flask_simplelogin import Message, SimpleLogin, get_username, login_required
+from werkzeug.utils import secure_filename
+import os
 
+UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'posters')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Fonction pour demander la vérification du login
 def validate_login(user):
@@ -126,6 +130,14 @@ def films_perso():
 @login_required()
 def add_film():
     if request.method == "POST":
+        
+        poster = request.files['poster']
+        
+        if poster :
+            poster_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(poster.filename))
+            poster.save(poster_path)
+            
+            
 
         film_data = {
             'username': get_username(),
@@ -136,7 +148,8 @@ def add_film():
             'genre': request.form.get("genre"),
             'description': request.form.get("description"),
             'production': request.form.get("production"),
-            'duree': request.form.get("duree")
+            'duree': request.form.get("duree"),
+            'poster': poster.filename
         }
 
         response = requests.post(f"{api_url}/add_film", json=film_data)

@@ -33,6 +33,7 @@ class FilmDatabase:
         description = data['description']
         duree = data['duree']
         production = data['production']
+        poster = data['poster']
 
         films = self.load_films()
         if username not in films:
@@ -46,7 +47,8 @@ class FilmDatabase:
             'year': year,
             'description': description,
             'production': production,
-            'duree': duree
+            'duree': duree,
+            'poster': poster
         }
 
         films[username].append(new_film)
