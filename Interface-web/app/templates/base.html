@@ -26,24 +26,23 @@
           <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
           <li><a href="{{url_for('list_films')}}" class="nav-link px-2 text-secondary">Films</a></li>
 
+          {% if is_logged_in() %}
+          <li class="nav-item">
+            <a class="nav-link px-2 text-secondary" href="{{url_for('films_commu')}}">Films communauté</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-2 text-secondary" href="{{url_for('films_perso')}}">Mes films</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-2 text-secondary" href="{{url_for('add_film')}}">Ajouter un film</a>
+          </li>
+          {% endif %}
           {% if is_logged_in() and (role == 'admin') %}
 
           <li class="nav-item">
             <a class="nav-link px-2 text-secondary" href="{{url_for('administrator')}}">Espace administrateur</a>
           </li>
           {% endif %}
-          {% if is_logged_in() %}
-          <li class="nav-item">
-            <a class="nav-link px-2 text-secondary" href="{{url_for('films_commu')}}">Liste films communauté</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-2 text-secondary" href="{{url_for('films_perso')}}">Liste films personnels</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-2 text-secondary" href="{{url_for('add_film')}}">Ajouter un film</a>
-          </li>
-          {% endif %}
-
         </ul>
 
         <div class="text-end">
@@ -61,7 +60,7 @@
 
   {% endblock %}
 
- 
+
   <div class="col-12 main-banner ">
     <video autoplay muted loop id="bg-video">
       <source src="{{ url_for('static', filename='images/bg-video.mp4') }}" type="video/mp4" />
@@ -71,11 +70,22 @@
       <br>
       <br>
       <div class="col-12 mt-5 overflow-auto" style="height: 80vh;">
-      {% block page_body %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+          <li class="alert alert-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% block page_body %}
 
 
-      {% endblock %}
-    </div>
+        {% endblock %}
+      </div>
     </div>
   </div>
 
@@ -110,7 +120,13 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
   {% endblock %}
-
+  <script>
+    setTimeout(function () {
+      document.querySelectorAll('.flashes li').forEach(function (element) {
+        element.classList.add('hidden');
+      });
+    }, 4000);  // Disparition après 5 secondes (5000 millisecondes)
+  </script>
 </body>
 
 </html>

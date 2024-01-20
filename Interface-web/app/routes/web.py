@@ -168,6 +168,59 @@ def add_film():
 
     return render_template('add_film.html', role=role)
 
+@app.route('/update_film', methods=['GET', 'POST'])
+@login_required()
+def update_film():
+    if request.method == "POST":
+        
+        poster = request.files['poster']
+        
+        if poster :
+            poster_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(poster.filename))
+            poster.save(poster_path)
+            
+            film_data = {
+                'film': request.form.get("film"),
+                'username': get_username(),
+                'title': request.form.get("title"),
+                'director': request.form.get("director"),
+                'year': request.form.get("year"),
+                'actors': [actor.strip() for actor in request.form.get('actors').split(',')],
+                'genre': request.form.get("genre"),
+                'description': request.form.get("description"),
+                'production': request.form.get("production"),
+                'duree': request.form.get("duree"),
+                'poster': poster.filename
+            }
+        else:
+            film_data = {
+                'film': request.form.get("film"),
+                'username': get_username(),
+                'title': request.form.get("title"),
+                'director': request.form.get("director"),
+                'year': request.form.get("year"),
+                'actors': [actor.strip() for actor in request.form.get('actors').split(',')],
+                'genre': request.form.get("genre"),
+                'description': request.form.get("description"),
+                'production': request.form.get("production"),
+                'duree': request.form.get("duree"),
+            }
+
+        response = requests.post(f"{api_url}/update_film", json=film_data)
+
+        if response.status_code == 201:
+            flash('Film modifié avec succès !', 'success')
+            return redirect(url_for('films_perso'))
+        
+        else:
+            return flash('Erreur lors de la modification du film. Veuillez réessayer.', 'danger')
+        
+    role = get_role()   
+    
+    url_ref = request.headers.get("Referer")
+
+    return redirect(url_ref)
+
 # Route permettant de supprimer un film
 @app.route('/delete_film/<film>', methods=['POST', 'GET'])
 @login_required()

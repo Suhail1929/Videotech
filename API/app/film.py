@@ -34,7 +34,7 @@ class FilmDatabase:
         duree = data['duree']
         production = data['production']
         poster = data['poster']
-
+        
         films = self.load_films()
         if username not in films:
             films[username] = []
@@ -79,6 +79,28 @@ class FilmDatabase:
                     return {"result": True}
                 x+=1
         return {"result": False}
+    
+    def update_film(self,data):
+        username = data['username']
+        films = self.load_films()
+        if username in films:
+            x=0
+            for film in films[username]:
+                if films[username][x]['title'] == data['title']:
+                    films[username][x]['title'] = data['title']
+                    films[username][x]['genre'] = data['genre']
+                    films[username][x]['director'] = data['director']
+                    films[username][x]['actors'] = data['actors']
+                    films[username][x]['year'] = data['year']
+                    films[username][x]['description'] = data['description']
+                    films[username][x]['production'] = data['production']
+                    films[username][x]['duree'] = data['duree']
+                    if 'poster' in data:
+                        films[username][x]['poster'] = data['poster']
+                    self.save_films(films)
+                    return {"result": True}
+                x+=1
+        return {"result": False}
 
 # Instancier la classe FilmDatabase
 film_db = FilmDatabase()
@@ -104,6 +126,13 @@ def delete_film():
     username = data["username"]
     film = data["film"]
     result = film_db.delete_film(username=username,film_title=film)
+    return jsonify(result), 201
+
+@app.route('/update_film', methods=['POST'])
+def update_film():
+    data = request.json
+    username = data["username"]
+    result = film_db.update_film(data=data)
     return jsonify(result), 201
 
 # Route pour la récupération de tous les films créés par les utilisateurs

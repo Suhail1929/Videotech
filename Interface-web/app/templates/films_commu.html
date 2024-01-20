@@ -5,6 +5,7 @@
 
 <h1 class="text-center title">Liste des films de la communauté</h1>
 
+
 <h4 class="text-center text-white">Liste des films</h4>
 <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" id="searchResults">
@@ -19,8 +20,8 @@
                             class="bi bi-person-circle"></i>
                         <td>{{ user }}</td>
                     </span>
-                    <img src="{{ url_for('static', filename='posters/'~film_data.poster) }}" alt="{{ film_data.title }}" width="100%" class="card-img-top" alt="..."
-                        style="min-height: 250px;">
+                    <img src="{{ url_for('static', filename='posters/'~film_data.poster) }}" alt="{{ film_data.title }}"
+                        width="100%" class="card-img-top" alt="..." style="min-height: 250px;">
 
                     <div class="card-body image-bg-container">
                         <h2 class="card-title text-center" style="font-size: 2rem;color: #FF3131 !important;"
@@ -43,7 +44,8 @@
                             <div class="container modal-body image-bg-container">
                                 <div class="row ">
                                     <div class="col-4">
-                                        <img src="{{ url_for('static', filename='posters/'~film_data.poster) }}" alt="{{ film_data.title }}" width="100%" class="card-img-top p-3 "
+                                        <img src="{{ url_for('static', filename='posters/'~film_data.poster) }}"
+                                            alt="{{ film_data.title }}" width="100%" class="card-img-top p-3 "
                                             style="border-radius: 30px;">
                                     </div>
                                     <div class="col-8 mt-4">
@@ -57,7 +59,8 @@
                                                     sortie:</strong> {{ film_data.year }}
                                             </li>
                                             <li><i class="bi bi-stars mx-2"></i>
-                                                <strong>Acteurs:</strong> {{ film_data.actors }}
+                                                <strong>Acteurs:</strong> {% for actor in film_data.actors%}{{ actor }}
+                                                {% if not loop.last %}, {% endif %}{% endfor %}
                                             </li>
 
                                             <li><i class="bi bi-clock-fill mx-2"></i>
@@ -86,11 +89,155 @@
                         </div>
                         <div class="modal-footer" style="border: none;">
                             <button type="button" class="btn main-btn" data-bs-dismiss="modal">Retour</button>
+                            {% if is_logged_in() and (role == 'admin') %}
+                            <a href="{{ url_for('delete_film', film=film_data.title) }}"
+                                class="btn btn-danger">Supprimer</a>
+                            <button type="button" data-bs-toggle="modal"
+                                data-bs-target="#ModiferfilmModal{{ film_data.title }}"
+                                class="btn btn-warning">Modifier</button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+        <div class="modal modal-xl" id="ModiferfilmModal{{ film_data.title }}" tabindex="-1"
+            aria-labelledby="ModiferfilmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header " data-bs-theme="dark" style="border: none;">
+                        <h1 class="modal-title title" id="ModiferfilmModal">Modifier le film : {{ film_data.title }}
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="bg-dark">
+                        <form action="{{ url_for('update_film') }}" method="POST" enctype="multipart/form-data">
+                            <div class="container modal-body image-bg-container">
+                                <div class="row ">
+                                    <div class="row g-3">
+
+                                        <div class="col-md-6">
+                                            <imput type="hidden" name="film" value="{{ film_data.title }}">
+                                                <label class="form-label" for="genre">Genre*</label>
+                                                <select class="form-select" name="genre" required>
+                                                    {% if film_data.genre == "Action" %}
+                                                    <option selected value="Action">Action</option>
+                                                    {% else %}
+                                                    <option value="Action">Action</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Aventure" %}
+                                                    <option selected value="Aventure">Aventure</option>
+                                                    {% else %}
+                                                    <option value="Aventure">Aventure</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Comédie" %}
+                                                    <option selected value="Comédie">Comédie</option>
+                                                    {% else %}
+                                                    <option value="Comédie">Comédie</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Drame" %}
+                                                    <option selected value="Drame">Drame</option>
+                                                    {% else %}
+                                                    <option value="Drame">Drame</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Fantastique" %}
+                                                    <option selected value="Fantastique">Fantastique</option>
+                                                    {% else %}
+                                                    <option value="Fantastique">Fantastique</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Horreur" %}
+                                                    <option selected value="Horreur">Horreur</option>
+                                                    {% else %}
+                                                    <option value="Horreur">Horreur</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Policier" %}
+                                                    <option selected value="Policier">Policier</option>
+                                                    {% else %}
+                                                    <option value="Policier">Policier</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Science-fiction" %}
+                                                    <option selected value="Science-fiction">Science-fiction
+                                                    </option>
+                                                    {% else %}
+                                                    <option value="Science-fiction">Science-fiction</option>
+                                                    {% endif %}
+
+                                                    {% if film_data.genre == "Thriller" %}
+                                                    <option selected value="Thriller">Thriller</option>
+                                                    {% else %}
+                                                    <option value="Thriller">Thriller</option>
+                                                    {% endif %}
+
+                                                </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="director">Réalisateur*</label>
+                                            <input type="text" name="director" class="form-control" required
+                                                value="{{ film_data.director }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="year">Date de sortie*</label>
+                                            <input type="date" name="year" class="form-control" required
+                                                value="{{ film_data.year }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="duree">Durée en minutes*</label>
+                                            <input type="number" name="duree" class="form-control" required
+                                                value="{{ film_data.duree }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="production">Production* </label>
+                                            <input type="text" name="production" class="form-control" required
+                                                value="{{ film_data.production }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="actors">Acteurs (séparés par des
+                                                virgules)*</label>
+
+                                            <input type="text" name="actors" class="form-control" required
+                                                value="{% for actor in film_data.actors%}{{ actor }} {% if not loop.last %}, {% endif %}{% endfor %}">
+
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="poster">Poster </label>
+                                            <input type="file" name="poster" class="form-control"
+                                                value="{{ film_data.poster }}">
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="description">Description*</label>
+                                            <textarea class="form-control" name="description" rows="4" cols="75"
+                                                style="display: block;height: 10rem;">{{ film_data.description }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center mt-4">
+                                    <button type="submit" class="btn btn-warning">Confirmer les
+                                        modifications</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer" style="border: none;">
+                        <button type="button" class="btn main-btn" data-bs-dismiss="modal">Retour</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         {% endfor %}
         {% endfor %}
     </div>
