@@ -34,6 +34,7 @@ class FilmDatabase:
         duree = data['duree']
         production = data['production']
         poster = data['poster']
+        visibilite = data['visibilite']
         
         films = self.load_films()
         if username not in films:
@@ -48,7 +49,8 @@ class FilmDatabase:
             'description': description,
             'production': production,
             'duree': duree,
-            'poster': poster
+            'poster': poster,
+            'visibilite': visibilite
         }
 
         films[username].append(new_film)
@@ -86,8 +88,7 @@ class FilmDatabase:
         if username in films:
             x=0
             for film in films[username]:
-                if films[username][x]['title'] == data['title']:
-                    films[username][x]['title'] = data['title']
+                if films[username][x]['title'] == data['film']:
                     films[username][x]['genre'] = data['genre']
                     films[username][x]['director'] = data['director']
                     films[username][x]['actors'] = data['actors']
@@ -95,6 +96,7 @@ class FilmDatabase:
                     films[username][x]['description'] = data['description']
                     films[username][x]['production'] = data['production']
                     films[username][x]['duree'] = data['duree']
+                    films[username][x]['visibilite'] = data['visibilite']
                     if 'poster' in data:
                         films[username][x]['poster'] = data['poster']
                     self.save_films(films)

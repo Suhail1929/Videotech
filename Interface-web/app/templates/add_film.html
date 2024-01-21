@@ -57,7 +57,16 @@
                     <input type="text" name="actors" class="form-control" required>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-6">
+                    <label class="form-label" for="Visibilite">Visibilité *</label>
+                    <select class="form-select" name="visibilite" required>
+                        <option selected disabled value="">...</option>
+                        <option value="1">Public</option>
+                        <option value="0">Privée</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
                     <label class="form-label" for="actors">Poster *</label>
                     <input type="file" name="poster" class="form-control" required>
                 </div>

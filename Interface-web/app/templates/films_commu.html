@@ -5,18 +5,17 @@
 
 <h1 class="text-center title">Liste des films de la communauté</h1>
 
-
-<h4 class="text-center text-white">Liste des films</h4>
 <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" id="searchResults">
 
         {% for user in films %}
         {% for film_data in films[user] %}
+        {% if film_data.visibilite == '1' or (is_logged_in() and (role == 'admin')) %}
         <div class="col" id="result{{ film_data.title }}" min-height="550px">
             <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film_data.title }}" class="text-decoration-none"
                 style="cursor: pointer;">
                 <div class="card shadow-sm link-film bg-dark">
-                    <span class="badge rounded-pill text-bg-warning" style="position: absolute;top: 20px;left: 20px;"><i
+                    <span class="badge rounded-pill bg-success text-dark" style="position: absolute;top: 20px;left: 20px;"><i
                             class="bi bi-person-circle"></i>
                         <td>{{ user }}</td>
                     </span>
@@ -102,7 +101,7 @@
             </div>
         </div>
 
-
+        {% if is_logged_in() and (role == 'admin') %}
         <div class="modal modal-xl" id="ModiferfilmModal{{ film_data.title }}" tabindex="-1"
             aria-labelledby="ModiferfilmModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -119,65 +118,65 @@
                                     <div class="row g-3">
 
                                         <div class="col-md-6">
-                                            <imput type="hidden" name="film" value="{{ film_data.title }}">
-                                                <label class="form-label" for="genre">Genre*</label>
-                                                <select class="form-select" name="genre" required>
-                                                    {% if film_data.genre == "Action" %}
-                                                    <option selected value="Action">Action</option>
-                                                    {% else %}
-                                                    <option value="Action">Action</option>
-                                                    {% endif %}
+                                            <input type="hidden" name="film" value="{{ film_data.title }}">
+                                            <label class="form-label" for="genre">Genre*</label>
+                                            <select class="form-select" name="genre" required>
+                                                {% if film_data.genre == "Action" %}
+                                                <option selected value="Action">Action</option>
+                                                {% else %}
+                                                <option value="Action">Action</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Aventure" %}
-                                                    <option selected value="Aventure">Aventure</option>
-                                                    {% else %}
-                                                    <option value="Aventure">Aventure</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Aventure" %}
+                                                <option selected value="Aventure">Aventure</option>
+                                                {% else %}
+                                                <option value="Aventure">Aventure</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Comédie" %}
-                                                    <option selected value="Comédie">Comédie</option>
-                                                    {% else %}
-                                                    <option value="Comédie">Comédie</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Comédie" %}
+                                                <option selected value="Comédie">Comédie</option>
+                                                {% else %}
+                                                <option value="Comédie">Comédie</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Drame" %}
-                                                    <option selected value="Drame">Drame</option>
-                                                    {% else %}
-                                                    <option value="Drame">Drame</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Drame" %}
+                                                <option selected value="Drame">Drame</option>
+                                                {% else %}
+                                                <option value="Drame">Drame</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Fantastique" %}
-                                                    <option selected value="Fantastique">Fantastique</option>
-                                                    {% else %}
-                                                    <option value="Fantastique">Fantastique</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Fantastique" %}
+                                                <option selected value="Fantastique">Fantastique</option>
+                                                {% else %}
+                                                <option value="Fantastique">Fantastique</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Horreur" %}
-                                                    <option selected value="Horreur">Horreur</option>
-                                                    {% else %}
-                                                    <option value="Horreur">Horreur</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Horreur" %}
+                                                <option selected value="Horreur">Horreur</option>
+                                                {% else %}
+                                                <option value="Horreur">Horreur</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Policier" %}
-                                                    <option selected value="Policier">Policier</option>
-                                                    {% else %}
-                                                    <option value="Policier">Policier</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Policier" %}
+                                                <option selected value="Policier">Policier</option>
+                                                {% else %}
+                                                <option value="Policier">Policier</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Science-fiction" %}
-                                                    <option selected value="Science-fiction">Science-fiction
-                                                    </option>
-                                                    {% else %}
-                                                    <option value="Science-fiction">Science-fiction</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Science-fiction" %}
+                                                <option selected value="Science-fiction">Science-fiction
+                                                </option>
+                                                {% else %}
+                                                <option value="Science-fiction">Science-fiction</option>
+                                                {% endif %}
 
-                                                    {% if film_data.genre == "Thriller" %}
-                                                    <option selected value="Thriller">Thriller</option>
-                                                    {% else %}
-                                                    <option value="Thriller">Thriller</option>
-                                                    {% endif %}
+                                                {% if film_data.genre == "Thriller" %}
+                                                <option selected value="Thriller">Thriller</option>
+                                                {% else %}
+                                                <option value="Thriller">Thriller</option>
+                                                {% endif %}
 
-                                                </select>
+                                            </select>
                                         </div>
 
                                         <div class="col-md-6">
@@ -209,7 +208,20 @@
 
                                         </div>
 
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="visibilite">Visibility *</label>
+                                            <select class="form-select" name="visibilite" required>
+                                                {% if film_data.visibilite == 1 %}
+                                                <option selected value="1">Public</option>
+                                                <option value="0">Private</option>
+                                                {% else %}
+                                                <option value="1">Public</option>
+                                                <option selected value="0">Private</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
                                             <label class="form-label" for="poster">Poster </label>
                                             <input type="file" name="poster" class="form-control"
                                                 value="{{ film_data.poster }}">
@@ -236,8 +248,8 @@
                 </div>
             </div>
         </div>
-
-
+        {% endif %}
+        {% endif %}
         {% endfor %}
         {% endfor %}
     </div>

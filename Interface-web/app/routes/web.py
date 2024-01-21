@@ -152,6 +152,7 @@ def add_film():
             'description': request.form.get("description"),
             'production': request.form.get("production"),
             'duree': request.form.get("duree"),
+            'visibilite': request.form.get("visibilite"),
             'poster': poster.filename
         }
 
@@ -182,7 +183,6 @@ def update_film():
             film_data = {
                 'film': request.form.get("film"),
                 'username': get_username(),
-                'title': request.form.get("title"),
                 'director': request.form.get("director"),
                 'year': request.form.get("year"),
                 'actors': [actor.strip() for actor in request.form.get('actors').split(',')],
@@ -190,31 +190,34 @@ def update_film():
                 'description': request.form.get("description"),
                 'production': request.form.get("production"),
                 'duree': request.form.get("duree"),
+                'visibilite': request.form.get("visibilite"),
                 'poster': poster.filename
             }
         else:
             film_data = {
                 'film': request.form.get("film"),
                 'username': get_username(),
-                'title': request.form.get("title"),
                 'director': request.form.get("director"),
                 'year': request.form.get("year"),
                 'actors': [actor.strip() for actor in request.form.get('actors').split(',')],
                 'genre': request.form.get("genre"),
                 'description': request.form.get("description"),
                 'production': request.form.get("production"),
-                'duree': request.form.get("duree"),
+                'visibilite': request.form.get("visibilite"),
+                'duree': request.form.get("duree")
             }
 
         response = requests.post(f"{api_url}/update_film", json=film_data)
 
         if response.status_code == 201:
-            flash('Film modifié avec succès !', 'success')
-            return redirect(url_for('films_perso'))
-        
+            status = response.json()
+            if status['result'] == True:
+                flash('Film modifié avec succès !', 'success')
+            else:
+                flash('Erreur lors de la modification.', 'danger')
         else:
-            return flash('Erreur lors de la modification du film. Veuillez réessayer.', 'danger')
-        
+            flash('Erreur lors de la modification du film. Veuillez réessayer.', 'danger')
+
     role = get_role()   
     
     url_ref = request.headers.get("Referer")
@@ -231,8 +234,11 @@ def delete_film(film):
     }
     response = requests.post(f"{api_url}/delete_film",json=data)
     if response.status_code == 201:
-        flash('Film supprimé avec succès !', 'success')
-        return redirect(url_for('films_perso'))
+        status = response.json()
+        if status['result'] == True:
+            flash('Film supprimé avec succès !', 'success')
+        else:
+            flash('Erreur avec la suppression.', 'danger')
     else:
         flash('Erreur avec la suppression.', 'danger')
     return redirect(url_for('films_perso'))
