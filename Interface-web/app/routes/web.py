@@ -121,6 +121,7 @@ def films_commu():
 
 # Route pour afficher et pouvoir supprimer tous les films créés par l'utilisateur actuel
 @app.route('/films_perso', methods=['GET'])
+@login_required()
 def films_perso():
     username = get_username()
     response = requests.post(f"{api_url}/get_films_user",json=username)
@@ -217,19 +218,17 @@ def update_film():
                 flash('Erreur lors de la modification.', 'danger')
         else:
             flash('Erreur lors de la modification du film. Veuillez réessayer.', 'danger')
-
-    role = get_role()   
     
     url_ref = request.headers.get("Referer")
 
     return redirect(url_ref)
 
 # Route permettant de supprimer un film
-@app.route('/delete_film/<film>', methods=['POST', 'GET'])
+@app.route('/delete_film/<username>/<film>', methods=['POST', 'GET'])
 @login_required()
-def delete_film(film):
+def delete_film(username,film):
     data = {
-        'username': get_username(),
+        'username': username,
         'film': film,
     }
     response = requests.post(f"{api_url}/delete_film",json=data)

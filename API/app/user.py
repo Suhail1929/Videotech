@@ -74,13 +74,13 @@ class UserDatabase:
 
     # Permet de changer les droits d'un utilisateur
     def update_roles(self, username, role):
-            users = self.load_users()
-            for u in users:
-                if u.get('username') == username:
-                    u['role'] = role
-                    self.save_users(users)
-                    return True
-            return False    
+        users = self.load_users()
+        for u in users:
+            if u.get('username') == username:
+                u['role'] = role
+                self.save_users(users)                    
+                return True
+        return False    
 
 # Instancier la classe UserDatabase
 user_db = UserDatabase()
@@ -112,7 +112,7 @@ def update_role():
     username = data.get('username')
     role = data.get('role')
     result = user_db.update_roles(username, role)
-    return 201 if result else 400
+    return jsonify({"result": result}), 201 if result else 400
 
 # Route pour la suppression d'un utilisateur
 @app.route('/delete_user', methods=['POST'])

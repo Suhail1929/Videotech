@@ -1,17 +1,1 @@
-[
-    {
-        "username": "admin",
-        "password": "pbkdf2:sha256:600000$rTKOdFv70U8BVb7T$ee6c1f039b36f7271f35cb05c18cfbecc4b0727452a3b99606a123bb7ba9737a",
-        "role": "admin"
-    },
-    {
-        "username": "2",
-        "password": "pbkdf2:sha256:600000$TFFBZRGP1h9d6EFZ$bada7e49fc9bed52ac59366b201aa82f8e56f825529ab6067c8d7489e9f56ed7",
-        "role": "user"
-    },
-    {
-        "username": "1",
-        "password": "pbkdf2:sha256:600000$Yecxq2RAAZRJvem4$2f18174da7e774abecfe47fda23cca68fc6f924873ad189cce541748b43b22bf",
-        "role": "user"
-    }
-]
+[{"username": "admin", "password": "pbkdf2:sha256:600000$rTKOdFv70U8BVb7T$ee6c1f039b36f7271f35cb05c18cfbecc4b0727452a3b99606a123bb7ba9737a", "role": "admin"}, {"username": "2", "password": "pbkdf2:sha256:600000$TFFBZRGP1h9d6EFZ$bada7e49fc9bed52ac59366b201aa82f8e56f825529ab6067c8d7489e9f56ed7", "role": "user"}, {"username": "1", "password": "pbkdf2:sha256:600000$Yecxq2RAAZRJvem4$2f18174da7e774abecfe47fda23cca68fc6f924873ad189cce541748b43b22bf", "role": "user"}]

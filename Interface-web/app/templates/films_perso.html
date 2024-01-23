@@ -66,7 +66,7 @@
                                             </li>
 
                                             <li><i class="bi bi-clock-fill mx-2"></i>
-                                                <strong>durée:</strong> {{
+                                                <strong>Durée:</strong> {{
                                                 film_data.duree
                                                 }} min
                                             </li>
@@ -91,6 +91,8 @@
                         </div>
                         <div class="modal-footer" style="border: none;">
                             <button type="button" class="btn main-btn" data-bs-dismiss="modal">Retour</button>
+                            <a href="{{ url_for('delete_film', username=get_username(), film=film_data.title) }}"
+                                class="btn btn-danger">Supprimer</a>
                             <button type="button" data-bs-toggle="modal"
                                 data-bs-target="#ModiferfilmModal{{ film_data.title }}"
                                 class="btn btn-warning">Modifier</button>

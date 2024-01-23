@@ -16,11 +16,11 @@
                         <div class="row p-4 mx-5 mb-5">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Checher un film par titre</label>
+                                    <label class="form-label">Chercher un film par titre</label>
                                     <input type="text" name="title" class="form-control" placeholder="Titre du film">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Checher un film par genre</label>
+                                    <label class="form-label">Chercher un film par genre</label>
                                     <select class="form-select" name="genre">
                                         <option selected disabled value="">...</option>
                                         {% for genre in genres.genres %}
@@ -39,12 +39,12 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Checher un film par année de sortie</label>
+                                    <label class="form-label">Chercher un film par année de sortie</label>
                                     <input type="number" name="year" class="form-control" placeholder="Année de sortie"
                                         min="1900">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Checher un film par vote minimum</label>
+                                    <label class="form-label">Chercher un film par vote minimum</label>
                                     <input type="number" name="vote" class="form-control" placeholder="Vote minimum"
                                         min="0" max="10" step="0.1">
                                 </div>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                             <button type="submit" class="btn main-btn">Rechercher</button>
                         </div>
                 </form>
@@ -157,7 +157,7 @@
                                                 <strong>Budget:</strong> {{ "{:,}".format(film.budget) }} $
                                             </li>
                                             <li><i class="bi bi-cash-coin mx-2"></i>
-                                                <strong>Revenue:</strong> {{ "{:,}".format(film.revenue) }} $
+                                                <strong>Revenu:</strong> {{ "{:,}".format(film.revenue) }} $
                                             </li>
                                             {% endif %}
                                             <li><i class="bi bi-clock-fill mx-2"></i>
@@ -205,20 +205,18 @@
         searchInput.addEventListener('input', function () {
             var searchTerm = searchInput.value.trim();
 
-            // Sélectionnez tous les éléments de résultat
             var resultItems = searchResults.children;
 
             for (var i = 0; i < resultItems.length; i++) {
                 var resultItem = resultItems[i];
-                var filmId = resultItem.id.replace('result', ''); // Obtenez l'ID du film
+                var filmId = resultItem.id.replace('result', ''); 
 
                 var title = document.getElementById('title' + filmId).innerText.toLowerCase();
 
-                // Vérifiez si le titre du film contient le terme de recherche
                 if (title.includes(searchTerm.toLowerCase())) {
-                    resultItem.style.display = '';  // Affiche l'élément
+                    resultItem.style.display = '';  
                 } else {
-                    resultItem.style.display = 'none';  // Masque l'élément
+                    resultItem.style.display = 'none';  
                 }
             }
         });

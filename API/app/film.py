@@ -19,7 +19,7 @@ class FilmDatabase:
     # Fonction pour sauvegarder les modifications de films.json
     def save_films(self, films):
         with open('DB/films.json', 'w') as file:
-            json.dump(films, file)
+            json.dump(films, file, indent=2)
 
 
     # Permet d'ajouter un film en fonction de l'utilisateur qui l'a créé
