@@ -30,6 +30,8 @@ sudo docker-compose --build
 ```
 Vous devriez être en mesure d'accéder au site en tapant dans la barre d'adresse de votre navigateur votre.adresse.i.p:5000
 
+Les logs s'affichent normalement dans le terminal, pour arrêter le site faites un CTRL C dans le terminal, pour le relancer effectuez la même commande que ci-dessus.
+
 ## Fonctionnalités
 
 - **Ajout de films:** Enregistrez vos films préférés avec des détails tels que le titre, le réalisateur, les acteurs, l'année de sortie, le genre, et plus encore.
