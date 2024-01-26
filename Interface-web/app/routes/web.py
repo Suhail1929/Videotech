@@ -50,6 +50,15 @@ def register():
         username = request.form.get("username")
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
+        
+        if len(password) < 8:
+            flash("Le mot de passe doit contenir au moins 8 caractères.", "danger")
+        elif not any(char.isdigit() for char in password):
+            flash("Le mot de passe doit contenir au moins un chiffre.", "danger")
+        elif not any(char.isupper() for char in password):
+            flash("Le mot de passe doit contenir au moins une majuscule.", "danger")
+        elif not any(char.islower() for char in password):
+            flash("Le mot de passe doit contenir au moins une minuscule.", "danger")
 
         if password != confirm_password:
             flash("Les mots de passe ne correspondent pas.", "danger")
@@ -126,8 +135,10 @@ def films_perso():
     username = get_username()
     response = requests.post(f"{api_url}/get_films_user",json=username)
     films = response.json() if response.status_code == 201 else []
-    role = get_role()     
-    return render_template('films_perso.html', role=role, films=films)
+    role = get_role()    
+    response_users = requests.get(f"{api_url}/get_users")
+    users = response_users.json() if response_users.status_code == 201 else [] 
+    return render_template('films_perso.html', role=role, films=films, users=users)
 
 # Route permettant à un utilisateur d'ajouter un film
 @app.route('/add_film', methods=['GET', 'POST'])
@@ -240,7 +251,10 @@ def delete_film(username,film):
             flash('Erreur avec la suppression.', 'danger')
     else:
         flash('Erreur avec la suppression.', 'danger')
-    return redirect(url_for('films_perso'))
+    
+    url_ref = request.headers.get("Referer")
+    
+    return redirect(url_ref)
 
 # Route de la page administrateur
 @app.route("/administrator")
@@ -286,6 +300,38 @@ def delete_user(username):
         flash('Erreur avec la suppression.', 'danger')
 
     return redirect(url_for('administrator'))
+
+@app.route('/change_password', methods=['POST', 'GET'])
+@login_required()
+def change_password():
+    username = get_username()
+    old_password = request.form.get("old_password")
+    new_password = request.form.get("new_password")
+    confirm_password = request.form.get("confirm_password")
+    #verifier si le nouveau mot de passe (contient au moins 8 caractères, une majuscule, une minuscule et un chiffre)
+    
+    if len(new_password) < 8:
+        flash("Le mot de passe doit contenir au moins 8 caractères.", "danger")
+    elif not any(char.isdigit() for char in new_password):
+        flash("Le mot de passe doit contenir au moins un chiffre.", "danger")
+    elif not any(char.isupper() for char in new_password):
+        flash("Le mot de passe doit contenir au moins une majuscule.", "danger")
+    elif not any(char.islower() for char in new_password):
+        flash("Le mot de passe doit contenir au moins une minuscule.", "danger")
+    
+    
+    if new_password != confirm_password:
+        flash("Les mots de passe ne correspondent pas.", "danger")
+    else:
+        data = {'username':username,'old_password':old_password,'new_password':new_password}
+        response = requests.post(f"{api_url}/change_password", json=data)
+        if response.status_code == 201:
+            flash('Mot de passe changé avec succès !', 'success')
+            return redirect(url_for('films_perso'))
+        else:
+            flash('Erreur avec le changement de mot de passe.', 'danger')
+
+    return redirect(url_for('films_perso'))
 
 
     

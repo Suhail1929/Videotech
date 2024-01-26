@@ -1,21 +1,6 @@
 {
   "admin": [
     {
-      "title": "Demon slayer: Le train de l'infini",
-      "genre": "Action",
-      "director": "Haruo Sotozaki",
-      "actors": [
-        "Enzo Ratsito",
-        "Akari Kito"
-      ],
-      "year": "2021-05-19",
-      "description": "Le groupe de Tanjir\u00f4 a termin\u00e9 son entra\u00eenement de r\u00e9cup\u00e9ration au domaine des papillons et embarque \u00e0 pr\u00e9sent en vue de sa prochaine mission \u00e0 bord du train de l'infini, d'o\u00f9 quarante personnes ont disparu en peu de temps. Tanjir\u00f4 et Nezuko, accompagn\u00e9s de Zen'itsu et Inosuke, s'allient \u00e0 l'un des plus puissants \u00e9p\u00e9istes de l'arm\u00e9e des pourfendeurs de d\u00e9mons, le Pilier de la Flamme Ky\u00f4jur\u00f4 Rengoku, afin de contrer le d\u00e9mon qui a engag\u00e9 le train de l'Infini sur une voie funeste.",
-      "production": "?",
-      "duree": "117",
-      "poster": "demonslayer.jpg",
-      "visibilite": "1"
-    },
-    {
       "title": "Oppenheimer",
       "genre": "Thriller",
       "director": "Christopher Nolan",
@@ -44,43 +29,11 @@
       "duree": "115",
       "poster": "barbie.webp",
       "visibilite": "1"
-    },
-    {
-      "title": "1",
-      "genre": "Action",
-      "director": "1",
-      "actors": [
-        "1"
-      ],
-      "year": "2024-01-23",
-      "description": "1",
-      "production": "1",
-      "duree": "1",
-      "poster": "F1tNoroWYAAgnH1.jpg",
-      "visibilite": "1"
     }
   ],
   "1": [
     {
       "title": "The Tomorrow War",
-      "genre": "Science-fiction",
-      "director": "Chris McKay",
-      "actors": [
-        "Chris Pratt",
-        "Yvonne Strahovski",
-        "J.K. Simmons"
-      ],
-      "year": "2021-07-02",
-      "description": "Le monde est stup\u00e9fait lorsqu\u2019un groupe de voyageurs arrive du futur \u2013 pr\u00e9cis\u00e9ment de l\u2019ann\u00e9e 2051 - pour d\u00e9livrer un message urgent : dans 30 ans, l\u2019Humanit\u00e9 va perdre une guerre d\u2019envergure mondiale contre une esp\u00e8ce d\u2019aliens meurtri\u00e8re venue d\u00e9truire notre civilisation. Le seul moyen de survivre \u00e0 cette attaque extraterrestre est de faire transporter des soldats et civils du monde d\u2019aujourd\u2019hui trente ans plus tard pour lutter contre cette invasion alien. Parmi les recrues, Dan Forester, p\u00e8re de famille et professeur au lyc\u00e9e, est d\u00e9termin\u00e9 \u00e0 sauver le monde pour l\u2019avenir de sa fille. Dan fait \u00e9quipe avec une brillante scientifique et son p\u00e8re pour r\u00e9\u00e9crire l\u2019avenir de la plan\u00e8te.",
-      "production": "Zach Dean",
-      "duree": "140",
-      "poster": "thetomorrowwar.jpg",
-      "visibilite": "1"
-    }
-  ],
-  "2": [
-    {
-      "title": "3",
       "genre": "Science-fiction",
       "director": "Chris McKay",
       "actors": [

@@ -71,6 +71,16 @@ class UserDatabase:
             json.dump(data, json_films) 
         
         return True
+    
+    def change_password(self, username, old_password, new_password):
+        users = self.load_users()
+        for u in users:
+            if u.get('username') == username and check_password_hash(u.get('password'), old_password):
+                hashed_password = generate_password_hash(new_password, method="pbkdf2:sha256")
+                u['password'] = hashed_password
+                self.save_users(users)
+                return True
+        return False
 
     # Permet de changer les droits d'un utilisateur
     def update_roles(self, username, role):
@@ -121,6 +131,15 @@ def delete_user():
     username = data.get('username')
     result = user_db.delete_users(username)
     return 201 if result else 400
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    data = request.json
+    username = data.get('username')
+    old_password = data.get('old_password')
+    new_password = data.get('new_password')
+    result = user_db.change_password(username, old_password, new_password)
+    return jsonify({"result": result}), 201 if result else 400
 
 @app.route('/get_role', methods=['POST','GET'])
 def get_role():

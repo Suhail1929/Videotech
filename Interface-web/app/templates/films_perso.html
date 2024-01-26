@@ -1,19 +1,88 @@
 {% extends 'base.html' %}
-{% block title %}Liste des films personnels{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block page_body %}
 
-<h1 class="text-center title">Liste des films personnels</h1>
+<h1 class="text-center title">Mon profil</h1>
+<h4 class="text-center text-white">Mes informations</h4>
+{% for user_data in users %}
+{% if user_data.username == get_username() %}
+<div class="row g-6 justify-content-center border rounded-3 shadow-lg p-4 mx-5 mb-5">
+    <div class="col-md-7 col-lg-8">
+        <table class="table table-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Role</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user_data.username }}</td>
+                    <td>{{ user_data.role }}</td>
+                    <td>
+                        <button class="btn btn-warning" type="button" data-bs-toggle="modal"
+                            data-bs-target="#changePasswordModal">Changer le mot de passe</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal modal-xl" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header " data-bs-theme="dark" style="border: none;">
+                <h1 class="modal-title title" id="changePasswordModal">Changer le mot de passe</h1>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="bg-dark">
+                <form action="{{ url_for('change_password') }}" method="POST">
+                    <div class="container modal-body d-flex justify-content-center">
+                        <div class="row ">
+                            <div class="col-12 mt-3">
+                                <input type="password" name="old_password" class="form-control"
+                                    placeholder="Ancien mot de passe" required>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <input type="password" name="new_password" class="form-control"
+                                    placeholder="Nouveau mot de passe" required>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <input type="password" name="confirm_password" class="form-control"
+                                    placeholder="Confirmer le nouveau mot de passe" required>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-warning">Confirmer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border: none;">
+                <button type="button" class="btn main-btn" data-bs-dismiss="modal">Retour</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endfor %}
 
 
-<h4 class="text-center text-white">Liste des films</h4>
+
+<h4 class="text-center text-white">Mes films</h4>
 <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" id="searchResults">
 
         {% for film_data in films %}
-        <div class="col" id="result{{ film_data.title }}" min-height="550px">
-            <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film_data.title }}" class="text-decoration-none"
-                style="cursor: pointer;">
+        <div class="col" id="result{{ film_data.title|replace(' ', '') }}" min-height="550px">
+            <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film_data.title|replace(' ', '') }}"
+                class="text-decoration-none" style="cursor: pointer;">
                 <div class="card shadow-sm link-film bg-dark">
                     <span class="badge rounded-pill bg-info text-dark" style="position: absolute;top: 20px;left: 20px;">
                         {% if film_data.visibilite == '1' %}
@@ -34,7 +103,7 @@
                 </div>
             </a>
             <!-- Modal -->
-            <div class="modal modal-xl" id="filmModal{{ film_data.title }}" tabindex="-1"
+            <div class="modal modal-xl" id="filmModal{{ film_data.title|replace(' ', '') }}" tabindex="-1"
                 aria-labelledby="filmModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content bg-dark text-white">
@@ -94,14 +163,14 @@
                             <a href="{{ url_for('delete_film', username=get_username(), film=film_data.title) }}"
                                 class="btn btn-danger">Supprimer</a>
                             <button type="button" data-bs-toggle="modal"
-                                data-bs-target="#ModiferfilmModal{{ film_data.title }}"
+                                data-bs-target="#ModiferfilmModal{{ film_data.title|replace(' ', '') }}"
                                 class="btn btn-warning">Modifier</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal modal-xl" id="ModiferfilmModal{{ film_data.title }}" tabindex="-1"
+            <div class="modal modal-xl" id="ModiferfilmModal{{ film_data.title|replace(' ', '') }}" tabindex="-1"
                 aria-labelledby="ModiferfilmModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content bg-dark text-white">

@@ -11,8 +11,8 @@
         {% for user in films %}
         {% for film_data in films[user] %}
         {% if film_data.visibilite == '1' or (is_logged_in() and (role == 'admin')) %}
-        <div class="col" id="result{{ film_data.title }}" min-height="550px">
-            <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film_data.title }}" class="text-decoration-none"
+        <div class="col" id="result{{ film_data.title|replace(' ', '') }}" min-height="550px">
+            <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film_data.title|replace(' ', '') }}" class="text-decoration-none"
                 style="cursor: pointer;">
                 <div class="card shadow-sm link-film bg-dark">
                     <span class="badge rounded-pill bg-success text-dark" style="position: absolute;top: 20px;left: 20px;"><i
@@ -31,7 +31,7 @@
                 </div>
             </a>
             <!-- Modal -->
-            <div class="modal modal-xl" id="filmModal{{ film_data.title }}" tabindex="-1"
+            <div class="modal modal-xl" id="filmModal{{ film_data.title|replace(' ', '') }}" tabindex="-1"
                 aria-labelledby="filmModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content bg-dark text-white">
@@ -92,7 +92,7 @@
                             <a href="{{ url_for('delete_film', username=user, film=film_data.title) }}"
                                 class="btn btn-danger">Supprimer</a>
                             <button type="button" data-bs-toggle="modal"
-                                data-bs-target="#ModiferfilmModal{{ film_data.title }}"
+                                data-bs-target="#ModiferfilmModal{{ film_data.title|replace(' ', '') }}"
                                 class="btn btn-warning">Modifier</button>
                             {% endif %}
                         </div>
@@ -102,7 +102,7 @@
         </div>
 
         {% if is_logged_in() and role == 'admin' %}
-        <div class="modal modal-xl" id="ModiferfilmModal{{ film_data.title }}" tabindex="-1"
+        <div class="modal modal-xl" id="ModiferfilmModal{{ film_data.title|replace(' ', '') }}" tabindex="-1"
             aria-labelledby="ModiferfilmModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content bg-dark text-white">
