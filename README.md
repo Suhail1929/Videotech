@@ -42,8 +42,8 @@ Les logs s'affichent normalement dans le terminal, pour arrêter le site faites 
 ## Comptes par défaut
 
 Il existe deux comptes par défaut allant avec le projet.
-- **Premier compte:** Nom d'utilisateur: admin, mot de passe ?. Il dispose des privilèges d'administrateur
-- **Deuxième compte:** Nom d'utilisateur: ?, mot de passe ?. N'a aucun privilège particulier
+- **Premier compte:** Nom d'utilisateur: admin, mot de passe Azer1234. Il dispose des privilèges d'administrateur
+- **Deuxième compte:** Nom d'utilisateur: user, mot de passe: User1234. N'a aucun privilège particulier
 
 Il reste toutefois possible de créer de nouveaux comptes et l'administrateur peut donner des droits d'admin aux simples utilisateurs.
 
