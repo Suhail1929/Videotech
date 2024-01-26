@@ -60,16 +60,16 @@ class UserDatabase:
         new_users = [user for user in users if user.get('username') != username]
         if users == new_users:
             return False
-        self.save_users(users)
+        self.save_users(new_users)
 
         # Partie permettant de supprimer tous les films de l'utilisateur 
         # supprimé pour éviter les résidus dans le fichier des films
         with open("DB/films.json", "r") as json_films:
             data = json.load(json_films)
-        del data[username]    
+        if data[username]:
+            del data[username]    
         with open("DB/films.json", "w") as json_films:
             json.dump(data, json_films) 
-        
         return True
     
     def change_password(self, username, old_password, new_password):
@@ -130,7 +130,7 @@ def delete_user():
     data = request.json
     username = data.get('username')
     result = user_db.delete_users(username)
-    return 201 if result else 400
+    return jsonify({"result": result}), 201 if result else 400
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
