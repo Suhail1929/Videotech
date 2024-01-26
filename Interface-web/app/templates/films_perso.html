@@ -76,9 +76,14 @@
 
 
 <h4 class="text-center text-white">Mes films</h4>
-<div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" id="searchResults">
 
+<div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        <a class="main-btn btn" href="{{url_for('add_film')}}">
+            <div class="d-flex justify-content-center align-items-center" style="height: 550px;">
+                <i class="bi bi-plus-circle me-2"></i> Ajouter un film
+            </div>
+        </a>
         {% for film_data in films %}
         <div class="col" id="result{{ film_data.title|replace(' ', '') }}" min-height="550px">
             <a data-bs-toggle="modal" data-bs-target="#filmModal{{ film_data.title|replace(' ', '') }}"
