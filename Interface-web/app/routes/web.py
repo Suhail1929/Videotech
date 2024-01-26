@@ -296,8 +296,7 @@ def delete_user(username):
     if response.status_code == 201:
         flash('Utilisateur supprimé avec succès !', 'success')
         return redirect(url_for('administrator'))
-    else:
-        flash('Erreur avec la suppression.', 'danger')
+
 
     return redirect(url_for('administrator'))
 
