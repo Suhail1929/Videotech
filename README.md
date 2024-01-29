@@ -23,7 +23,7 @@ Mettez vous dans le dossier ou vous souhaitez recevoir le projet puis effectuez 
 ```bash
 git clone https://github.com/Suhail1929/Videotech.git
 ```
-Allez ensuite dans le fichier Interface-web/app/app.py et modifiez la sixième ligne en mettant l'adresse IP de votre propre machine à la place de 10.11.5.113.
+Allez ensuite dans le fichier Interface-web/app/app.py et modifiez la sixième ligne en mettant l'adresse IP de votre propre machine à la place de 10.11.5.145.
 Positionnez vous à la racine du projet puis effectuez cette commande:
 ```bash
 sudo docker-compose --build
